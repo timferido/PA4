@@ -11,6 +11,8 @@
 #define ACTORGRAPH_H
 
 #include <iostream>
+#include <unordered_map>
+#include <algorithm>
 
 // Maybe include some data structures here
 #include <vector>
@@ -18,16 +20,31 @@
 
 using namespace std;
 
+
+class Node {
+    vector<int> adj;
+    string actorName;
+    int dist;
+    int index;
+    int prev;
+};
+
 class ActorGraph {
     protected:
 
         // Maybe add class data structure(s) here
+        vector<Node*> graph;
 
+        
 
     public:
+        std::unordered_multimap<std::string,std::string> movieMap;
+
         ActorGraph(void);
 
         // Maybe add some more methods here
+
+        // vector<Node*> createGraph(){};
 
         /** You can modify this method definition as you wish
          *
