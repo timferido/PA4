@@ -22,29 +22,34 @@ using namespace std;
 
 
 class Node {
-    vector<int> adj;
+    unordered_multimap<string,string> adj;
     string actorName;
     int dist;
     int index;
     int prev;
+    
+    public:
+        Node(string actor) : string(actor), dist(0), index(0), prev(0) {};
 };
 
 class ActorGraph {
     protected:
 
         // Maybe add class data structure(s) here
-        vector<Node*> graph;
+
 
         
 
     public:
+        vector<Node*> graph;
+    
         std::unordered_multimap<std::string,std::string> movieMap;
 
         ActorGraph(void);
 
         // Maybe add some more methods here
 
-        // vector<Node*> createGraph(){};
+        vector<Node*> createGraph(void);
 
         /** You can modify this method definition as you wish
          *

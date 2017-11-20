@@ -25,6 +25,9 @@ int main(int argc, char* argv[]) {
     for (auto it = range.first; it != range.second; ++it) {
         cout << it->first << ' ' << it->second << '\n';
     }
+    
+    cout << graph.movieMap.count(testst) << endl;
+    
     cout << " after the loop" << endl;
 
     return 0;

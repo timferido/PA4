@@ -18,6 +18,65 @@ using namespace std;
 
 ActorGraph::ActorGraph(void) {}
 
+vector<Node*> ActorGraph::createGraph(void) {
+    //iterate through the movie multiset
+    auto itr = movieMap.begin();
+    auto end = movieMap.end();
+    
+    string actor = "";
+    Node* temp;
+    
+    while (itr != end)
+    {   
+        bool actorExist = false;
+        string actor;
+        string actorName;
+
+        //for each actor in the movie
+        auto range = movieMap.equal_range((*itr)->first));
+        for (auto itractor = range.first; itractor != range.second; ++itractor) {
+            actor = itractor->second;
+            
+            //check if actor is in graph
+            auto itrgraph = graph.begin();
+            auto endgraph = graph.end();
+            
+            while (itrgraph != endgraph) {
+                
+                //if yes, add other actors with movie and year into adj
+                if ((*itrgraph).actorName == actor)
+                {
+                    actorExist = true;
+                    temp = itrgraph;
+                    break;
+                }
+                
+                itrgraph++;
+            }
+            
+            //if no, create new Node and insert to vector
+            if (!actorExist) {
+                temp = new Node(actor);
+            }
+            
+            //add other actors with movie and year into adj
+            auto rangeadj = movieMap.equal_range((*itr)->first));
+            for (auto itractoradj = rangeadj.first; itractoradj != rangeadj.second; ++ itractoradj) {
+                
+                if ((*itractoradj).first != actor)
+                    temp->adj.insert(make_pair<string,string>((*itractoradj).first, *itr);
+                    
+            }
+            
+        }
+        
+    
+        
+    
+        itr++;
+    }
+}
+
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
     // Initialize the file stream
     ifstream infile(in_filename);
@@ -76,6 +135,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         return false;
     }
     infile.close();
+    
+    
 
     return true;
 }
