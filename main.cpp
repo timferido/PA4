@@ -17,12 +17,13 @@ int main(int argc, char* argv[]) {
     ActorGraph graph;
     bool test = graph.loadFromFile(argv[1], false);
 
+    string testst = "BEEF\t2003";
+    
     //test search
-    auto range = graph.movieMap.equal_range("GONE GIRL   2014");
+    auto range = graph.movieMap.equal_range(testst);
     cout << "before the loop" << endl;
     for (auto it = range.first; it != range.second; ++it) {
         cout << it->first << ' ' << it->second << '\n';
-        cout << "in the loop" <<endl;
     }
     cout << " after the loop" << endl;
 

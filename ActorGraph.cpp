@@ -63,8 +63,9 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
 
         // we have an actor/movie relationship, now what?
         // update the graph
-
-        std::pair<std::string,std::string> pear (movie_title+'\t'+record[2],actor_name);
+        string titleyear = movie_title +"\t" + record[2];
+        
+        std::pair<std::string,std::string> pear (titleyear,actor_name);
 
         movieMap.insert(pear);
         

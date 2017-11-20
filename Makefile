@@ -24,6 +24,8 @@ pathfinder: ActorGraph.o
 
 main: main.o ActorGraph.o
 
+main.o: main.cpp
+
 # include what ever source code *.h files ActorGraph relies on (these are merely the ones that were used in the solution)
 
 # Note: you do not have to include a *.cpp file if it aleady has a paired *.h file that is already included with class/method headers
