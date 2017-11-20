@@ -1,7 +1,7 @@
 /*
  * ActorGraph.cpp
- * Author: <YOUR NAME HERE>
- * Date:   <DATE HERE>
+ * Author: Timothy Ferido, Kent Nguyen
+ * Date:   11-16-17
  *
  * This file is meant to exist as a container for starter code that you can use to read the input file format
  * defined in movie_casts.tsv. Feel free to modify any/all aspects as you wish.
@@ -23,6 +23,9 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
     ifstream infile(in_filename);
 
     bool have_header = false;
+
+    //trackers
+    int currActorIdx = 0;
 
     // keep reading lines until the end of file is reached
     while (infile) {
@@ -59,6 +62,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         int movie_year = stoi(record[2]);
 
         // we have an actor/movie relationship, now what?
+        // update the graph
+        
     }
 
     if (!infile.eof()) {

@@ -13,6 +13,8 @@
 #include <iostream>
 
 // Maybe include some data structures here
+#include <vector>
+#include <string>
 
 using namespace std;
 
@@ -20,6 +22,7 @@ class ActorGraph {
     protected:
 
         // Maybe add class data structure(s) here
+
 
     public:
         ActorGraph(void);
