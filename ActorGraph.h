@@ -22,6 +22,7 @@ using namespace std;
 
 
 class Node {
+public:
     unordered_multimap<string,string> adj;
     string actorName;
     int dist;
@@ -29,7 +30,7 @@ class Node {
     int prev;
     
     public:
-        Node(string actor) : string(actor), dist(0), index(0), prev(0) {};
+        Node(string actor) : actorName(actor), dist(0), index(0), prev(0) {};
 };
 
 class ActorGraph {
@@ -37,8 +38,6 @@ class ActorGraph {
 
         // Maybe add class data structure(s) here
 
-
-        
 
     public:
         vector<Node*> graph;

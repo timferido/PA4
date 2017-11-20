@@ -33,7 +33,7 @@ vector<Node*> ActorGraph::createGraph(void) {
         string actorName;
 
         //for each actor in the movie
-        auto range = movieMap.equal_range((*itr)->first));
+        auto range = movieMap.equal_range(itr->first);
         for (auto itractor = range.first; itractor != range.second; ++itractor) {
             actor = itractor->second;
             
@@ -44,10 +44,10 @@ vector<Node*> ActorGraph::createGraph(void) {
             while (itrgraph != endgraph) {
                 
                 //if yes, add other actors with movie and year into adj
-                if ((*itrgraph).actorName == actor)
+                if ((*itrgraph)->actorName == actor)
                 {
                     actorExist = true;
-                    temp = itrgraph;
+                    temp = *itrgraph;
                     break;
                 }
                 
@@ -60,19 +60,14 @@ vector<Node*> ActorGraph::createGraph(void) {
             }
             
             //add other actors with movie and year into adj
-            auto rangeadj = movieMap.equal_range((*itr)->first));
+            auto rangeadj = movieMap.equal_range(itr->first);
             for (auto itractoradj = rangeadj.first; itractoradj != rangeadj.second; ++ itractoradj) {
                 
                 if ((*itractoradj).first != actor)
                     temp->adj.insert(make_pair<string,string>((*itractoradj).first, *itr);
-                    
             }
             
         }
-        
-    
-        
-    
         itr++;
     }
 }
