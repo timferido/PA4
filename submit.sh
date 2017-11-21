@@ -14,7 +14,7 @@ ASNLIB='asnlib'
 RED='\033[0;31m'
 NC='\033[0m'
 submit_pathfinder_and_actor_connections=y
-deadline1="Tue Nov 02 23:59:59 PST 2017"
+deadline1="Tue Nov 20 23:59:59 PST 2017"
 current=$(date)
 deadline1_date=$(date +%s -d "$deadline1")
 current_date=$(date +%s -d "$current")
@@ -275,7 +275,7 @@ if [[ $deadline1_date -lt $current_date ]] || [[ "$submit_pathfinder_and_actor_c
     done
 fi
 
-runNumNeighborsTest $ASNLIB/movie_casts.tsv $ASNLIB/test_neighbors.tsv $ASNLIB/test_neighbors_out.tsv test_neighbors_student_out.tsv 5
+runNumNeighborsTest $ASNLIB/movie_casts.tsv $ASNLIB/test_neighbors.tsv $ASNLIB/test_neighbors_out.tsv test_neighbors_student_out.tsv 25
 let "totalTests+=1"
 
 echo ""
