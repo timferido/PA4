@@ -50,7 +50,6 @@ int main(int argc, char* argv[]) {
 
     if (!infile.eof()) {
         cerr << "Failed to read " << argv[2] << "!\n";
-        return false;
     }
     infile.close();
     outfile.close();
