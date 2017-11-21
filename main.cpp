@@ -54,8 +54,6 @@ int main(int argc, char* argv[]) {
     }
     infile.close();
     outfile.close();
-
-	graph.printAdj("SMOORENBURG, RON");
     
     return 0;
 }

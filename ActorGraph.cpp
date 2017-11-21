@@ -43,11 +43,12 @@ void ActorGraph::createGraph(void) {
 
 	while (itrmovie != endmovie)
 	{
-		bool actorExist = false;
-
 		//first loop to establish actor nodes in graph
 		for (auto itractor = (itrmovie->second).begin(); itractor != (itrmovie->second).end(); ++itractor) {
 		
+		bool actorExist = false;
+
+
            	//check if actor is in graph
             	auto itrgraph = graph.begin();
             	auto endgraph = graph.end();

@@ -40,9 +40,10 @@ class ActorGraph {
         // Maybe add class data structure(s) here
 	std::unordered_map<std::string,std::vector<std::string>> movieMap;
 
+	vector<Node*> graph;
+
 	
     public:
-        vector<Node*> graph;
     
 
         ActorGraph(void);
