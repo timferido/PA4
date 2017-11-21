@@ -16,60 +16,79 @@
 
 using namespace std;
 
+Node::~Node() {}
+
 ActorGraph::ActorGraph(void) {}
 
-vector<Node*> ActorGraph::createGraph(void) {
-    //iterate through the movie multiset
-    auto itr = movieMap.begin();
-    auto end = movieMap.end();
-    
-    string actor = "";
-    Node* temp;
-    
-    while (itr != end)
-    {   
-        bool actorExist = false;
-        string actor;
-        string actorName;
+ActorGraph::~ActorGraph() {
 
-        //for each actor in the movie
-        auto range = movieMap.equal_range(itr->first);
-        for (auto itractor = range.first; itractor != range.second; ++itractor) {
-            actor = itractor->second;
-            
-            //check if actor is in graph
-            auto itrgraph = graph.begin();
-            auto endgraph = graph.end();
-            
-            while (itrgraph != endgraph) {
+	//parse through graph deleting nodes
+
+		auto itr = graph.begin();
+		auto end = graph.end();
+
+		while (itr != end) {
+			delete *itr;
+
+			itr++;
+		}
+		
+}
+
+void ActorGraph::createGraph(void) {
+  
+	//iterate through movies
+	auto itrmovie = movieMap.begin();
+	auto endmovie = movieMap.end();
+
+	while (itrmovie != endmovie)
+	{
+		bool actorExist = false;
+
+		//first loop to establish actor nodes in graph
+		for (auto itractor = (itrmovie->second).begin(); itractor != (itrmovie->second).end(); ++itractor) {
+		
+           	//check if actor is in graph
+            	auto itrgraph = graph.begin();
+            	auto endgraph = graph.end();
+
+
+		Node* temp;
+
+            	while (itrgraph != endgraph) {
                 
-                //if yes, add other actors with movie and year into adj
-                if ((*itrgraph)->actorName == actor)
-                {
-                    actorExist = true;
-                    temp = *itrgraph;
-                    break;
-                }
+                	//if yes, add other actors with movie and year into adj
+                	if ((*itrgraph)->actorName == *itractor)
+                	{
+                    		actorExist = true;
+                    		temp = *itrgraph;
+                    		break;
+                	}
                 
                 itrgraph++;
-            }
+            	}
             
-            //if no, create new Node and insert to vector
-            if (!actorExist) {
-                temp = new Node(actor);
-            }
-            
-            //add other actors with movie and year into adj
-            auto rangeadj = movieMap.equal_range(itr->first);
-            for (auto itractoradj = rangeadj.first; itractoradj != rangeadj.second; ++ itractoradj) {
-                
-                if ((*itractoradj).first != actor)
-                    temp->adj.insert(make_pair<string,string>((*itractoradj).first, *itr);
-            }
-            
-        }
-        itr++;
-    }
+            	//if no, create new Node and insert to vector
+            	if (!actorExist) {
+                	temp = new Node(*itractor);
+			graph.push_back(temp);
+            	}
+		
+		
+
+		//add the actor to the adjacency list of current actor node
+		//check if actor is itself
+		//nested loop to add all the other actors to adjacency list
+		for(auto itrcast = (itrmovie->second).begin(); itrcast != (itrmovie->second).end(); ++itrcast) {
+			//check if actor is itself
+			if (*itrcast != *itractor)
+				temp->adj.insert(std::pair<std::string,std::string>(*itrcast, (*itrmovie).first));
+		}
+	
+
+		}
+		itrmovie++;
+	}
 }
 
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
@@ -119,10 +138,18 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         // update the graph
         string titleyear = movie_title +"\t" + record[2];
         
-        std::pair<std::string,std::string> pear (titleyear,actor_name);
+	//check if titleyear exists in the movieMap
+		//if so, then add actor to the corresponding vector
+		//if not, then create a new pair with titleyear and push actor onto vector
 
-        movieMap.insert(pear);
-        
+	if (movieMap.find(titleyear) == movieMap.end()) {
+		std::vector<std::string> cast;
+		auto pear = std::pair<std::string,std::vector<std::string>>(titleyear,cast);
+		movieMap.insert(pear);
+	} 
+	//find the movie again and push the actor onto cast 
+	auto currMovie = movieMap.find(titleyear);
+	(currMovie->second).push_back(actor_name);
     }
 
     if (!infile.eof()) {
@@ -130,8 +157,73 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         return false;
     }
     infile.close();
-    
-    
 
     return true;
+}
+
+
+void ActorGraph::printAdj(string name) {
+
+	//find actor in the graph
+	auto itractor = graph.begin();
+	auto endactor = graph.end();
+
+	while (itractor != endactor) {
+		
+		//compare the name field of curr actor to param
+		if ((*itractor)->actorName == name) {
+			break;
+		}
+		itractor++;
+	}
+
+
+	//actor was found
+	if (itractor != endactor) {
+
+		//print the contents of adj map
+		auto itradj = ((*itractor)->adj).begin();
+		auto endadj = ((*itractor)->adj).end();
+
+		//loop through the adjacency list
+		while (itradj != endadj) {
+			
+			//print each actor name
+			cout << itradj->first << '\t' << itradj->second << '\n';
+
+			itradj++;
+		}
+	} else {
+	//actor not found
+		cout << "actor does not exist.\n";	
+	}
+}
+
+int ActorGraph::countAdj(string name) {
+	
+	//find actor in the graph
+	auto itractor = graph.begin();
+	auto endactor = graph.end();
+
+	while (itractor != endactor) {
+		
+		//compare the name field of curr actor to param
+		if ((*itractor)->actorName == name) {
+			break;
+		}
+		itractor++;
+	}
+
+	//actor was found
+	if (itractor != endactor) {
+
+		// return the count of adj
+		return (*itractor)->adj.size();
+	} else {
+	//actor not found
+		cout << "actor does not exist.\n";
+		return 0;	
+	}
+
+
 }

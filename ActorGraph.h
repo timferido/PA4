@@ -23,7 +23,7 @@ using namespace std;
 
 class Node {
 public:
-    unordered_multimap<string,string> adj;
+    unordered_map<string,string> adj;
     string actorName;
     int dist;
     int index;
@@ -31,24 +31,26 @@ public:
     
     public:
         Node(string actor) : actorName(actor), dist(0), index(0), prev(0) {};
+	~Node();
 };
 
 class ActorGraph {
     protected:
 
         // Maybe add class data structure(s) here
+	std::unordered_map<std::string,std::vector<std::string>> movieMap;
 
-
+	
     public:
         vector<Node*> graph;
     
-        std::unordered_multimap<std::string,std::string> movieMap;
 
         ActorGraph(void);
+	~ActorGraph();
 
         // Maybe add some more methods here
 
-        vector<Node*> createGraph(void);
+        void createGraph(void);
 
         /** You can modify this method definition as you wish
          *
@@ -61,6 +63,11 @@ class ActorGraph {
          */
         bool loadFromFile(const char* in_filename, bool use_weighted_edges);
 
+	void printAdj(string name);
+
+	int countAdj(string name);
+
+	
 };
 
 
