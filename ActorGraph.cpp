@@ -118,8 +118,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         vector <string> record;
 
         while (ss) {
-            string next;
-
+			string next;
+			
             // get the next string before hitting a tab character and put it in 'next'
             if (!getline( ss, next, '\t' )) break;
 
@@ -227,4 +227,12 @@ int ActorGraph::countAdj(string name) {
 	}
 
 
+}
+
+
+Node* ActorGraph::find(string actor) {
+
+	//iterate through graph
+	std::vector<Node*>::iterator itr = graph.begin();
+	std::vector<Node*>::iterator end = graph.end();
 }

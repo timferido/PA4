@@ -28,9 +28,10 @@ public:
     int dist;
     int index;
     Node* prev;
+    bool done;
     
     public:
-        Node(string actor) : actorName(actor), dist(0), index(0), prev(0) {};
+        Node(string actor) : actorName(actor), dist(-1), index(0), prev(0), done(false) {};
 	~Node();
 };
 
@@ -66,7 +67,9 @@ class ActorGraph {
 
 	void printAdj(string name);
 
-	int countAdj(string name);
+    int countAdj(string name);
+    
+    Node* find(string actor);
 
 	
 };
