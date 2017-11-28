@@ -275,7 +275,7 @@ if [[ $deadline1_date -lt $current_date ]] || [[ "$submit_pathfinder_and_actor_c
     done
 fi
 
-runNumNeighborsTest $ASNLIB/movie_casts.tsv $ASNLIB/test_neighbors.tsv $ASNLIB/test_neighbors_out.tsv test_neighbors_student_out.tsv 25
+runNumNeighborsTest $ASNLIB/movie_casts.tsv $ASNLIB/test_neighbors.tsv $ASNLIB/test_neighbors_out.tsv test_neighbors_student_out.tsv 60
 let "totalTests+=1"
 
 echo ""
