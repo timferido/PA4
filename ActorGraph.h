@@ -27,7 +27,7 @@ public:
     string actorName;
     int dist;
     int index;
-    int prev;
+    Node* prev;
     
     public:
         Node(string actor) : actorName(actor), dist(0), index(0), prev(0) {};
