@@ -18,5 +18,5 @@ public:
     
     public:
         Node(string actor) : actorName(actor), dist(-1), index(0), prev(0), done(false) {};
-	    ~Node();
+	    // ~Node();
 };

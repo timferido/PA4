@@ -1,8 +1,8 @@
 #include "Node.h"
 
-//comparison operator for node
+// comparison operamaketor for node
 bool Node::operator<(const Node& other) {    
     return actorName < other.actorName;
 }
 
-Node::~Node() {}
+// Node::~Node() {}

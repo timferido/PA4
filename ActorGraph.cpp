@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 #include "ActorGraph.h"
 
@@ -27,7 +28,7 @@ ActorGraph::~ActorGraph() {
 		auto end = graph.end();
 
 		while (itr != end) {
-			delete *itr;
+			// delete *itr;
 
 			itr++;
 		}
@@ -267,14 +268,14 @@ int ActorGraph::edgeWeight(string movieyear) {
 
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
 
-	priority_queue<int, Node, NodePtrComp> pq;   //initialize priority queue 
+	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, greater<pair<int,Node*>>> pq;   //initialize priority queue 
 	Node* begin = find(actor_start);  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
-	pq.push_back(0, begin); //enqueue the first node 
+	pq.push(make_pair(0,begin)); //enqueue the first node 
 
 	while (!pq.empty()) {
 		//dq node v from front of q
-		Node* v = pq.top();
+		Node* v = (pq.top()).second;
 		pq.pop();
 
 		if (!v->done) { //if v is not done
@@ -293,7 +294,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 				if (c < w->dist) {
 					w->prev = v;
 					w->dist = c;
-					pq.push_back(c, w);
+					pq.push(make_pair(c,w));
 				}
 			}
 		}
