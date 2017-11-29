@@ -31,8 +31,7 @@ ActorGraph::~ActorGraph() {
 			// delete *itr;
 
 			itr++;
-		}
-		
+		}		
 }
 
 void ActorGraph::createGraph(void) {
@@ -239,6 +238,8 @@ Node* ActorGraph::find(string actor) {
 			return *itr;
 	}
 
+	return 0;
+
 }
 
 int ActorGraph::edgeWeight(string movieyear) {
@@ -268,12 +269,18 @@ int ActorGraph::edgeWeight(string movieyear) {
 
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
 
+	string path = "";	//will hold the path to return
+
 	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, greater<pair<int,Node*>>> pq;   //initialize priority queue 
 	Node* begin = find(actor_start);  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
 	pq.push(make_pair(0,begin)); //enqueue the first node 
 
 	while (!pq.empty()) {
+
+		//write to the string
+		path += ((pq.top()).second)->actorName + " ";
+
 		//dq node v from front of q
 		Node* v = (pq.top()).second;
 		pq.pop();
@@ -299,4 +306,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 			}
 		}
 	}
+
+	//now return the path
+	return path;
 }
