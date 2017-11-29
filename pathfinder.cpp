@@ -10,13 +10,47 @@ Description: This file is the pathfinder executable program which
 #include <fstream>
 #include <queue>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
-string findPath(string actor_start, string actor_end, ActorGraph graph) {
+
+
+// string findPath(string actor_start, string actor_end, ActorGraph graph, bool weighted) {
 
         
-}
+//     priority_queue<int, ActorGraph::Node*, ActorGraph::NodePtrComp> pq;   //initialize priority queue 
+//     Node* begin = graph.find(actor_start);  //find actor in graph
+//     begin->dist = 0;    //set distance to 0 for that node
+//     pq.push_back(0, begin); //enqueue the first node 
+
+//     while (!pq.empty()) {
+//         //dq node v from front of q
+//         Node* v = pq.top();
+//         pq.pop();
+
+//         if (!v->done) { //if v is not done
+//             v->done = true;
+//             //for each of v's neighbors
+//             for (auto itr = v->adj.begin(); itr != v->adj.end(); itr++) {
+//                 Node* w = graph.find(*itr.first);   //current neighbor
+
+//                 if (weighted) {
+//                     int c = v->dist + edgeWeight(*itr.second);
+//                 }
+//                 else {
+//                     int c = v->dist + 1;
+//                 }
+
+//                 if (c < w->dist) {
+//                     w->prev = v;
+//                     w->dist = c;
+//                     pq.push_back(c, w);
+//                 }
+//             }
+//         }
+//     }
+// }
 
 int main(int argc, char* argv[]) {
 
@@ -39,11 +73,11 @@ int main(int argc, char* argv[]) {
         // get the next line
         if (!getline( infile, s )) break;
 
-        if (!have_header) {
+        // if (!have_header) {
             // skip the header
-            have_header = true;
-            continue;
-        }
+            // have_header = true;
+            // continue;
+        // }
 
         istringstream ss( s );
         vector <string> record;
@@ -66,7 +100,7 @@ int main(int argc, char* argv[]) {
         string actor_end(record[1]);
 
         //write to output file
-        outfile << findPath(actor_start,actor_end,graph) << '\n';
+        outfile << graph.findPath(actor_start,actor_end, argv[2]) << '\n';
     }
 
     return 0;

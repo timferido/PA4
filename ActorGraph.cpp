@@ -233,6 +233,75 @@ int ActorGraph::countAdj(string name) {
 Node* ActorGraph::find(string actor) {
 
 	//iterate through graph
-	std::vector<Node*>::iterator itr = graph.begin();
-	std::vector<Node*>::iterator end = graph.end();
+	
+	for (auto itr = graph.begin(); itr != graph.end(); itr++) {
+		if ((*itr)->actorName == actor) 
+			return *itr;
+	}
+
+}
+
+//comparison operator for node
+// bool ActorGraph::operator<(const Node& other) {    
+    // return actorName < other.actorName;
+// }
+
+int ActorGraph::edgeWeight(string movieyear) {
+    string my = movieyear;
+
+    istringstream ss( my );
+    vector <string> record;
+
+    while (ss) {
+        string next;
+        
+        // get the next string before hitting a tab character and put it in 'next'
+        if (!getline( ss, next, '\t' )) break;
+
+        record.push_back( next );
+    }
+
+    // if (record.size() != 2) {
+    //     // we should have exactly 3 columns
+    //     continue;
+    // }
+
+    int year(stoi (record[1]));
+
+    return 1 + (2015 - year);
+}
+
+string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
+
+	priority_queue<int, Node*> pq;   //initialize priority queue 
+	Node* begin = find(actor_start);  //find actor in graph
+	begin->dist = 0;    //set distance to 0 for that node
+	pq.push_back(0, begin); //enqueue the first node 
+
+	while (!pq.empty()) {
+		//dq node v from front of q
+		Node* v = pq.top();
+		pq.pop();
+
+		if (!v->done) { //if v is not done
+			v->done = true;
+			//for each of v's neighbors
+			for (auto itr = v->adj.begin(); itr != v->adj.end(); itr++) {
+				Node* w = find((*itr).first);   //current neighbor
+				int c;
+				if (weighted) {
+					c = v->dist + edgeWeight((*itr).second);
+				}
+				else {
+					c = v->dist + 1;
+				}
+
+				if (c < w->dist) {
+					w->prev = v;
+					w->dist = c;
+					pq.push_back(c, w);
+				}
+			}
+		}
+	}
 }

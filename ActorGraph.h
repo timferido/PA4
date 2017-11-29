@@ -17,8 +17,11 @@
 // Maybe include some data structures here
 #include <vector>
 #include <string>
+#include <queue>
+#include <sstream>
 
 using namespace std;
+
 
 
 class Node {
@@ -29,11 +32,21 @@ public:
     int index;
     Node* prev;
     bool done;
+
+    ///comparison class
+    // bool operator<(const Node& other);
     
     public:
         Node(string actor) : actorName(actor), dist(-1), index(0), prev(0), done(false) {};
 	~Node();
 };
+
+// class NodePtrComp {
+// public: 
+//     bool operator() (Node*& lhs, Node*& rhs) const {
+//         return *lhs < *rhs;
+//     }
+// };
 
 class ActorGraph {
     protected:
@@ -71,7 +84,9 @@ class ActorGraph {
     
     Node* find(string actor);
 
-	
+    int edgeWeight(string movieyear);
+
+    string findPath(string actor_start, string actor_end, bool weighted);
 };
 
 
