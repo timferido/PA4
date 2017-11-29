@@ -14,9 +14,8 @@
 #include <vector>
 #include "ActorGraph.h"
 
-using namespace std;
 
-Node::~Node() {}
+using namespace std;
 
 ActorGraph::ActorGraph(void) {}
 
@@ -241,11 +240,6 @@ Node* ActorGraph::find(string actor) {
 
 }
 
-//comparison operator for node
-// bool ActorGraph::operator<(const Node& other) {    
-    // return actorName < other.actorName;
-// }
-
 int ActorGraph::edgeWeight(string movieyear) {
     string my = movieyear;
 
@@ -273,7 +267,7 @@ int ActorGraph::edgeWeight(string movieyear) {
 
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
 
-	priority_queue<int, Node*> pq;   //initialize priority queue 
+	priority_queue<int, Node, NodePtrComp> pq;   //initialize priority queue 
 	Node* begin = find(actor_start);  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
 	pq.push_back(0, begin); //enqueue the first node 

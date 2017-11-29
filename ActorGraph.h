@@ -20,33 +20,20 @@
 #include <queue>
 #include <sstream>
 
+#include "Node.h"
+
 using namespace std;
 
 
 
-class Node {
-public:
-    unordered_map<string,string> adj;
-    string actorName;
-    int dist;
-    int index;
-    Node* prev;
-    bool done;
 
-    ///comparison class
-    // bool operator<(const Node& other);
-    
-    public:
-        Node(string actor) : actorName(actor), dist(-1), index(0), prev(0), done(false) {};
-	~Node();
+
+class NodePtrComp {
+public: 
+    bool operator() (Node*& lhs, Node*& rhs) const {
+        return *lhs < *rhs;
+    }
 };
-
-// class NodePtrComp {
-// public: 
-//     bool operator() (Node*& lhs, Node*& rhs) const {
-//         return *lhs < *rhs;
-//     }
-// };
 
 class ActorGraph {
     protected:
