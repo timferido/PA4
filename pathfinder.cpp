@@ -16,6 +16,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
+    bool have_header = false;
+
     //load from file
     ActorGraph graph;
     bool test = graph.loadFromFile(argv[1], false);
@@ -35,11 +37,11 @@ int main(int argc, char* argv[]) {
         // get the next line
         if (!getline( infile, s )) break;
 
-        // if (!have_header) {
+        if (!have_header) {
             // skip the header
-            // have_header = true;
-            // continue;
-        // }
+            have_header = true;
+            continue;
+        }
 
         istringstream ss( s );
         vector <string> record;
