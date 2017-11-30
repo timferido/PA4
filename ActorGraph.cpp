@@ -70,8 +70,9 @@ void ActorGraph::createGraph(void) {
             
             	//if no, create new Node and insert to vector
             	if (!actorExist) {
-                	temp = new Node(*itractor);
-			graph.push_back(temp);
+					temp = new Node(*itractor);
+					temp->dist = 32767;
+					graph.push_back(temp);
             	}
 		
 		
