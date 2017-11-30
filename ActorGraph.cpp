@@ -203,30 +203,6 @@ void ActorGraph::printAdj(string name) {
 }
 
 int ActorGraph::countAdj(string name) {
-	
-	// //find actor in the graph
-	// auto itractor = graph.begin();
-	// auto endactor = graph.end();
-
-	// while (itractor != endactor) {
-		
-	// 	//compare the name field of curr actor to param
-	// 	if (((*itractor).second)->actorName == name) {
-	// 		break;
-	// 	}
-	// 	itractor++;
-	// }
-
-	// //actor was found
-	// if (itractor != endactor) {
-
-	// 	// return the count of adj
-	// 	return ((*itractor).second)->adj.size();
-	// } else {
-	// //actor not found
-	// 	cout << "actor does not exist.\n";
-	// 	return 0;	
-	// }
 
 	auto found = graph.find(name);
 
@@ -236,21 +212,6 @@ int ActorGraph::countAdj(string name) {
 
 }
 
-
-// Node* ActorGraph::find(string actor) {
-
-// 	//iterate through graph
-	
-// 	// for (auto itr = graph.begin(); itr != graph.end(); itr++) {
-// 	// 	if (((*itr).second)->actorName == actor) 
-// 	// 		return (*itr).second;
-// 	// }
-
-// 	find
-
-// 	return 0;
-
-// }
 
 int ActorGraph::edgeWeight(string movieyear) {
     string my = movieyear;
