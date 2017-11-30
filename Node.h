@@ -1,10 +1,10 @@
 #include <unordered_map>
 #include <string>
 #include <algorithm>
+#include <utility>
 
 using namespace std;
 
-#define NFNTY   2147483647
 
 class Node {
 public:

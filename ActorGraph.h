@@ -13,7 +13,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <algorithm>
-
+#include <utility>
 // Maybe include some data structures here
 #include <vector>
 #include <string>
@@ -41,7 +41,7 @@ class ActorGraph {
         // Maybe add class data structure(s) here
 	std::unordered_map<std::string,std::vector<std::string>> movieMap;
 
-	vector<Node*> graph;
+    std::vector<Node*> graph;
 
 	
     public:
