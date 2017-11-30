@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
         string actor_end(record[1]);
 
         //write to output file
-        outfile << graph.findPath(actor_start,actor_end, argv[2]) << '\n';
+        outfile << graph.findPath(actor_start,actor_end, (argv[2]=="w")) << '\n';
     }
 
     return 0;
