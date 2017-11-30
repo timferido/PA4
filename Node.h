@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#define NFNTY   2147483647
+
 class Node {
 public:
     unordered_map<string,string> adj;
@@ -17,6 +19,6 @@ public:
     bool operator<(const Node& other);
     
     public:
-        Node(string actor) : actorName(actor), dist(INFINITY), index(0), prev(0), done(false) {};
+        Node(string actor) : actorName(actor), dist(NFNTY), index(0), prev(0), done(false) {};
 	    // ~Node();
 };
