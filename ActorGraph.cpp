@@ -10,6 +10,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <queue>
+#include <unordered_map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -58,10 +60,10 @@ void ActorGraph::createGraph(void) {
             	while (itrgraph != endgraph) {
                 
                 	//if yes, add other actors with movie and year into adj
-                	if ((*itrgraph)->actorName == *itractor)
+                	if (((*itrgraph).second)->actorName == *itractor)
                 	{
                     		actorExist = true;
-                    		temp = *itrgraph;
+                    		temp = (*itrgraph).second;
                     		break;
                 	}
                 
@@ -72,7 +74,7 @@ void ActorGraph::createGraph(void) {
             	if (!actorExist) {
 					temp = new Node(*itractor);
 					temp->dist = 32767;
-					graph.push_back(temp);
+					graph.insert(make_pair(*itractor, temp));
             	}
 		
 		
@@ -172,7 +174,7 @@ void ActorGraph::printAdj(string name) {
 	while (itractor != endactor) {
 		
 		//compare the name field of curr actor to param
-		if ((*itractor)->actorName == name) {
+		if (((*itractor).second)->actorName == name) {
 			break;
 		}
 		itractor++;
@@ -183,8 +185,8 @@ void ActorGraph::printAdj(string name) {
 	if (itractor != endactor) {
 
 		//print the contents of adj map
-		auto itradj = ((*itractor)->adj).begin();
-		auto endadj = ((*itractor)->adj).end();
+		auto itradj = (((*itractor).second)->adj).begin();
+		auto endadj = (((*itractor).second)->adj).end();
 
 		//loop through the adjacency list
 		while (itradj != endadj) {
@@ -209,7 +211,7 @@ int ActorGraph::countAdj(string name) {
 	while (itractor != endactor) {
 		
 		//compare the name field of curr actor to param
-		if ((*itractor)->actorName == name) {
+		if (((*itractor).second)->actorName == name) {
 			break;
 		}
 		itractor++;
@@ -219,7 +221,7 @@ int ActorGraph::countAdj(string name) {
 	if (itractor != endactor) {
 
 		// return the count of adj
-		return (*itractor)->adj.size();
+		return ((*itractor).second)->adj.size();
 	} else {
 	//actor not found
 		cout << "actor does not exist.\n";
@@ -230,18 +232,20 @@ int ActorGraph::countAdj(string name) {
 }
 
 
-Node* ActorGraph::find(string actor) {
+// Node* ActorGraph::find(string actor) {
 
-	//iterate through graph
+// 	//iterate through graph
 	
-	for (auto itr = graph.begin(); itr != graph.end(); itr++) {
-		if ((*itr)->actorName == actor) 
-			return *itr;
-	}
+// 	// for (auto itr = graph.begin(); itr != graph.end(); itr++) {
+// 	// 	if (((*itr).second)->actorName == actor) 
+// 	// 		return (*itr).second;
+// 	// }
 
-	return 0;
+// 	find
 
-}
+// 	return 0;
+
+// }
 
 int ActorGraph::edgeWeight(string movieyear) {
     string my = movieyear;
@@ -273,7 +277,8 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 	string path = "";	//will hold the path to return
 
 	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, greater<pair<int,Node*>>> pq;   //initialize priority queue 
-	Node* begin = find(actor_start);  //find actor in graph
+	auto found = graph.find(actor_start);
+	Node* begin = found->second;  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
 	pq.push(make_pair(0,begin)); //enqueue the first node 
 	int c;
@@ -291,7 +296,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 			v->done = true;
 			//for each of v's neighbors
 			for (auto itr = v->adj.begin(); itr != v->adj.end(); itr++) {
-				Node* w = find((*itr).first);   //current neighbor
+				Node* w = (graph.find((*itr).first))->second;   //current neighbor
 
 				if (weighted) {
 					c = v->dist + edgeWeight((*itr).second);

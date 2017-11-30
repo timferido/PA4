@@ -24,10 +24,6 @@
 
 using namespace std;
 
-
-
-
-
 class NodePtrComp {
 public: 
     bool operator() (Node*& lhs, Node*& rhs) const {
@@ -41,7 +37,7 @@ class ActorGraph {
         // Maybe add class data structure(s) here
 	std::unordered_map<std::string,std::vector<std::string>> movieMap;
 
-    std::vector<Node*> graph;
+    std::unordered_map<std::string,Node*> graph;
 
 	
     public:
@@ -69,7 +65,7 @@ class ActorGraph {
 
     int countAdj(string name);
     
-    Node* find(string actor);
+    // Node* find(string actor);
 
     int edgeWeight(string movieyear);
 
