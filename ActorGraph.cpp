@@ -276,6 +276,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 	Node* begin = find(actor_start);  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
 	pq.push(make_pair(0,begin)); //enqueue the first node 
+	int c;
 
 	while (!pq.empty()) {
 
@@ -291,7 +292,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 			//for each of v's neighbors
 			for (auto itr = v->adj.begin(); itr != v->adj.end(); itr++) {
 				Node* w = find((*itr).first);   //current neighbor
-				int c;
+
 				if (weighted) {
 					c = v->dist + edgeWeight((*itr).second);
 				}
