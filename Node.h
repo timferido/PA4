@@ -19,6 +19,6 @@ public:
     bool operator<(const Node& other);
     
     public:
-        Node(string actor) : actorName(actor), dist(NFNTY), index(0), prev(0), done(false) {};
+        Node(string actor) : actorName(actor), dist(32767), index(0), prev(0), done(false) {};
 	    // ~Node();
 };
