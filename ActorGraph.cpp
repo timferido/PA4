@@ -242,6 +242,13 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     //write to the string
 	path = "(" + ((pq.top()).second)->actorName + ")";
 
+	//re initialize all nodes fields
+	for (auto nodeitr = graph.begin(); nodeitr != graph.end(); nodeitr++) {
+		nodeitr->second->done = false;
+		nodeitr->second->dist = 32767;
+		nodeitr->second->prev = nullptr;
+	}
+
 	while (!pq.empty()) {
 
 		//dq node v from front of q
