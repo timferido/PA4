@@ -281,7 +281,6 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     Node* prev;
 	string movieyear;
 	unordered_map<string,string> adjList;
-	auto x;
     
     //get the path backwards
     while (curr->actorName != actor_start) {
@@ -292,7 +291,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		//get adjacency list
 		adjList = prev->adj;
 
-		x = adjList.find(curr->actorName);	
+		auto x = adjList.find(curr->actorName);	
         
         //get movieyear by finding curr actor in prev actor adj list
         // movieyear = (prev->adj.find(curr->actorName))->second;
