@@ -15,6 +15,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <stack>
+#include <algorithm>
 #include "ActorGraph.h"
 
 
@@ -236,11 +238,11 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 	begin->dist = 0;    //set distance to 0 for that node
 	pq.push(make_pair(0,begin)); //enqueue the first node 
 	int c;
+    
+    //write to the string
+	path = "(" + ((pq.top()).second)->actorName + ")";
 
 	while (!pq.empty()) {
-
-		//write to the string
-		path += ((pq.top()).second)->actorName + " ";
 
 		//dq node v from front of q
 		Node* v = (pq.top()).second;
@@ -268,6 +270,57 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		}
 	}
 
+    //stack the path
+    stack <pair<string, string>> pathstack;
+    
+    //find the last actor
+    auto endactor = graph.find(actor_end);
+    
+    //set the curr node to the end actor
+    Node* curr = endactor->second;
+    Node* prev;
+    string movieyear;
+    
+    //get the path backwards
+    while (curr->actorName != actor_start) {
+        
+        //get previous
+        prev = curr->prev;
+        
+        //get movieyear by finding curr actor in prev actor adj list
+        movieyear = (prev->adj.find(curr->actorName))->second;
+        
+        istringstream ss( movieyear );
+        vector <string> record;
+
+        while (ss) {
+            string next;
+        
+            // get the next string before hitting a tab character and put it in 'next'
+            if (!getline( ss, next, '\t' )) break;
+
+            record.push_back( next );
+        }
+        
+        movieyear = record[0] + "#@" + record[1];
+        
+        //push onto stack
+        pathstack.push(make_pair(curr->actorName, movieyear));
+        
+        //set prev to curr
+        curr = curr->prev;
+    }
+    
+    //pop stack to get the path from start to end
+    while (!pathstack.empty()) {
+        
+        auto actormovie = pathstack.top();
+        pathstack.pop();
+        
+        path += "--[" + actormovie.second + "]-->(" + actormovie.first + ")";
+    }
+    
 	//now return the path
 	return path;
 }
+
