@@ -237,7 +237,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 	Node* begin = found->second;  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
 	pq.push(make_pair(0,begin)); //enqueue the first node 
-	int c;
+	int c = 0;
     
     //write to the string
 	path = "(" + ((pq.top()).second)->actorName + ")";
