@@ -279,17 +279,25 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     //set the curr node to the end actor
     Node* curr = endactor->second;
     Node* prev;
-    string movieyear;
+	string movieyear;
+	unordered_map<string,string> adjList;
+	auto x;
     
     //get the path backwards
     while (curr->actorName != actor_start) {
         
-        //get previous
-        prev = curr->prev;
+        //get previous node
+		prev = curr->prev;
+		
+		//get adjacency list
+		adjList = prev->adj;
+
+		x = adjList.find(curr->actorName);	
         
         //get movieyear by finding curr actor in prev actor adj list
-        movieyear = (prev->adj.find(curr->actorName))->second;
-        
+        // movieyear = (prev->adj.find(curr->actorName))->second;
+		movieyear = x->second;
+		
         istringstream ss( movieyear );
         vector <string> record;
 
