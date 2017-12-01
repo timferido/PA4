@@ -232,12 +232,12 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 
 	string path = "";	//will hold the path to return
 
-		//re initialize all nodes fields
-		for (auto nodeitr = graph.begin(); nodeitr != graph.end(); nodeitr++) {
-			nodeitr->second->done = false;
-			nodeitr->second->dist = 32767;
-			nodeitr->second->prev = nullptr;
-		}
+		// //re initialize all nodes fields
+		// for (auto nodeitr = graph.begin(); nodeitr != graph.end(); nodeitr++) {
+		// 	nodeitr->second->done = false;
+		// 	nodeitr->second->dist = 32767;
+		// 	nodeitr->second->prev = nullptr;
+		// }
 
 	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, greater<pair<int,Node*>>> pq;   //initialize priority queue 
 	auto found = graph.find(actor_start);
@@ -280,7 +280,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 	}
 
     //stack the path
-    stack <pair<string, string>> pathstack;
+    stack <pair<Node*, string>> pathstack;
     
     //find the last actor
     auto endactor = graph.find(actor_end);
@@ -321,7 +321,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
         movieyear = record[0] + "#@" + record[1];
         
         //push onto stack
-        pathstack.push(make_pair(curr->actorName, movieyear));
+        pathstack.push(make_pair(curr, movieyear));
         
         //set prev to curr
         curr = curr->prev;
@@ -330,10 +330,14 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     //pop stack to get the path from start to end
     while (!pathstack.empty()) {
         
-        auto actormovie = pathstack.top();
-        pathstack.pop();
+		auto actormovie = pathstack.top();
+		pathstack.pop();
+
+		(actormovie.first)->done = false;
+		(actormovie.first)->dist = 32767;
+		(actormovie.first)->prev = nullptr;
         
-        path += "--[" + actormovie.second + "]-->(" + actormovie.first + ")";
+        path += "--[" + actormovie.second + "]-->(" + (actormovie.first)->actorName + ")";
     }
     
 	//now return the path
