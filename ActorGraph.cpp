@@ -256,6 +256,12 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 
 		//dq node v from front of q
 		Node* v = (pq.top()).second;
+        
+        //break out if actor_end is found
+        if (v->actorName == actor_end) {
+            break;
+        }
+        
 		resetAll.push(v);
 		pq.pop();
 
@@ -280,7 +286,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 			}
 		}
 	}
-
+    
     //stack the path
     stack <pair<Node*, string>> pathstack;
     
