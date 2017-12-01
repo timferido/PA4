@@ -232,31 +232,31 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 
 	string path = "";	//will hold the path to return
 
-		//re initialize all nodes fields
-		for (auto nodeitr = graph.begin(); nodeitr != graph.end(); nodeitr++) {
-			nodeitr->second->done = false;
-			nodeitr->second->dist = 32767;
-			nodeitr->second->prev = nullptr;
-		}
+		// //re initialize all nodes fields
+		// for (auto nodeitr = graph.begin(); nodeitr != graph.end(); nodeitr++) {
+		// 	nodeitr->second->done = false;
+		// 	nodeitr->second->dist = 32767;
+		// 	nodeitr->second->prev = nullptr;
+		// }
 
 	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, greater<pair<int,Node*>>> pq;   //initialize priority queue 
 	auto found = graph.find(actor_start);
 	Node* begin = found->second;  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
-	// begin->done = false;
-	// begin->prev = nullptr;
 	pq.push(make_pair(0,begin)); //enqueue the first node 
 	int c = 0;
     
     //write to the string
 	path = "(" + ((pq.top()).second)->actorName + ")";
 
-
+	//stack to reset all the nodes fields when done
+	stack <Node*> resetAll;
 
 	while (!pq.empty()) {
 
 		//dq node v from front of q
 		Node* v = (pq.top()).second;
+		resetAll.push(v);
 		pq.pop();
 
 		if (!v->done) { //if v is not done
@@ -334,13 +334,18 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
         
 		auto actormovie = pathstack.top();
 		pathstack.pop();
-
-		// (actormovie.first)->done = false;
-		// (actormovie.first)->dist = 32767;
-		// (actormovie.first)->prev = nullptr;
         
         path += "--[" + actormovie.second + "]-->(" + (actormovie.first)->actorName + ")";
-    }
+	}
+	
+	//now reset ALL THE NODES
+	while (!resetAll.empty()) {
+		Node* c = resetAll.top();
+		resetAll.pop();
+		c->done = false;
+		c->dist = 32767;
+		c->prev = nullptr;
+	}
     
 	//now return the path
 	return path;
