@@ -47,35 +47,21 @@ void ActorGraph::createGraph(void) {
 		//first loop to establish actor nodes in graph
 		for (auto itractor = (itrmovie->second).begin(); itractor != (itrmovie->second).end(); ++itractor) {
 		
-		bool actorExist = false;
+            bool actorExist = false;
 
+            //check if actor is in graph
+            auto found = graph.find(*itractor);
 
-           	//check if actor is in graph
-            	auto itrgraph = graph.begin();
-            	auto endgraph = graph.end();
+            Node* temp;
 
-
-		Node* temp;
-
-            	while (itrgraph != endgraph) {
-                
-                	//if yes, add other actors with movie and year into adj
-                	if (((*itrgraph).second)->actorName == *itractor)
-                	{
-                    		actorExist = true;
-                    		temp = (*itrgraph).second;
-                    		break;
-                	}
-                
-                itrgraph++;
-            	}
-            
-            	//if no, create new Node and insert to vector
-            	if (!actorExist) {
-					temp = new Node(*itractor);
-					temp->dist = 32767;
-					graph.insert(make_pair(*itractor, temp));
-            	}
+            if (found != graph.end()) {
+                temp = (*found).second;
+            }
+            else {
+                temp = new Node(*itractor);
+				temp->dist = 32767;
+				graph.insert(make_pair(*itractor, temp));
+            }
 		
 		
 
@@ -205,11 +191,13 @@ void ActorGraph::printAdj(string name) {
 int ActorGraph::countAdj(string name) {
 
 	auto found = graph.find(name);
+   int size = 0;
 
-	if (found != graph.end())
-		return ((found->second)->adj).size();
-	return 0;
+	if (found != graph.end()) {
+		size = ((found->second)->adj).size();
+   }
 
+   return size;
 }
 
 
