@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
         string actor_start(record[0]);
         string actor_end(record[1]);
         
-        actor_end.erase(actor_end.end()-1);
+        // actor_end.erase(actor_end.end()-1);
 
         //write to output file
         outfile << graph.findPath(actor_start,actor_end, (argv[2]=="w")) << '\n';
