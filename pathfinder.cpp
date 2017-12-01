@@ -72,5 +72,7 @@ int main(int argc, char* argv[]) {
         outfile << graph.findPath(actor_start,actor_end, (argv[2]=="w")) << '\n';
     }
 
+    outfile.close();
+    
     return 0;
 }
