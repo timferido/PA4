@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
         // actor_end.erase(actor_end.end()-1);
 
         //write to output file
-        if (argv[2] == (string)"w") {
+        if (argv[2][0] == 'w') {
             outfile << graph.findPath(actor_start,actor_end, true) << '\n';
         } else {
             outfile << graph.findPath(actor_start,actor_end, false) << '\n';
