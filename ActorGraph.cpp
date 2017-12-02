@@ -204,61 +204,84 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 
 	string path = "";	//will hold the path to return
 
-		// //re initialize all nodes fields
-		// for (auto nodeitr = graph.begin(); nodeitr != graph.end(); nodeitr++) {
-		// 	nodeitr->second->done = false;
-		// 	nodeitr->second->dist = 32767;
-		// 	nodeitr->second->prev = nullptr;
-		// }
-
-	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, NodePtrComp> pq;   //initialize priority queue 
-	auto found = graph.find(actor_start);
-	Node* begin = found->second;  //find actor in graph
-	begin->dist = 0;    //set distance to 0 for that node
-	pq.push(make_pair(0,begin)); //enqueue the first node 
-	int c = 0;
-    
-    //write to the string
-	path = "(" + ((pq.top()).second)->actorName + ")";
-
 	//stack to reset all the nodes fields when done
 	stack <Node*> resetAll;
 
-	while (!pq.empty()) {
+	/*---------------WEIGHTED---------------------*/
+	if (weighted) {
 
-		//dq node v from front of q
-		Node* v = (pq.top()).second;
-        
-        // //break out if actor_end is found
-        // if (v->actorName == actor_end) {
-        //     break;
-        // }
-        
-		resetAll.push(v);
-		pq.pop();
+		priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, NodePtrComp> pq;   //initialize priority queue 
+		auto found = graph.find(actor_start);
+		Node* begin = found->second;  //find actor in graph
+		begin->dist = 0;    //set distance to 0 for that node
+		pq.push(make_pair(0,begin)); //enqueue the first node 
+		int c = 0;
+		
+		//write to the string
+		path = "(" + ((pq.top()).second)->actorName + ")";
 
-		if (!v->done) { //if v is not done
-			v->done = true;
-			//for each of v's neighbors
-			for (auto itr = v->adj.begin(); itr != v->adj.end(); itr++) {
-				Node* w = (graph.find((*itr).first))->second;   //current neighbor
+		
 
-				if (weighted) {
-					c = v->dist + edgeWeight((*itr).second);
+		while (!pq.empty()) {
+
+			//dq node v from front of q
+			Node* v = (pq.top()).second;
+			
+			// //break out if actor_end is found
+			// if (v->actorName == actor_end) {
+			//     break;
+			// }
+			
+			resetAll.push(v);
+			pq.pop();
+
+			if (!v->done) { //if v is not done
+				v->done = true;
+				//for each of v's neighbors
+				for (auto itr = v->adj.begin(); itr != v->adj.end(); itr++) {
+					Node* w = (graph.find((*itr).first))->second;   //current neighbor
+
+					if (weighted) {
+						c = v->dist + edgeWeight((*itr).second);
+					}
+					else {
+						c = v->dist + 1;
+					}
+
+					if (c < w->dist) {
+						w->prev = v;
+						w->dist = c;
+						pq.push(make_pair(c,w));
+					}
 				}
-				else {
-					c = v->dist + 1;
-				}
-
-				if (c < w->dist) {
-					w->prev = v;
-					w->dist = c;
-					pq.push(make_pair(c,w));
+			}
+		}
+	} 
+	/*---------------------WEIGHTED------------------*/
+		
+	/*---------------------UNWEIGHTED----------------*/
+	else {
+		
+		queue<Node*> q;
+		auto found = graph.find(actor_start);
+		auto s = found->second;
+		q.push(s);
+		s->dist = 0;
+		
+		while (!q.empty()) {
+			auto curr = q.front();
+			q.pop();
+			for (auto itr = curr->adj.begin(); itr != curr->adj.end(); itr++) {
+				auto n = graph.find(itr->first)->second;
+				if (n->dist == 32767) {
+					n->dist = curr->dist+1;
+					n->prev = curr;
+					q.push(n);
 				}
 			}
 		}
 	}
-    
+	
     //stack the path
     stack <pair<Node*, string>> pathstack;
     
