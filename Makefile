@@ -14,7 +14,7 @@ ifeq ($(type),opt)
 			    LDFLAGS += -g
 			endif
 
-all: pathfinder main
+all: pathfinder main actorconnections
 
 
 
@@ -27,6 +27,8 @@ main: main.o ActorGraph.o Node.o
 main.o: main.cpp
 
 pathfinder.o: pathfinder.cpp
+
+actorconnections.o: actorconnections.cpp
 
 # include what ever source code *.h files ActorGraph relies on (these are merely the ones that were used in the solution)
 Node.o: Node.h
