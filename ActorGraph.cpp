@@ -270,6 +270,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		
 		while (!q.empty()) {
 			auto curr = q.front();
+			resetAll.push(curr);
 			q.pop();
 			for (auto itr = curr->adj.begin(); itr != curr->adj.end(); itr++) {
 				auto n = graph.find(itr->first)->second;
