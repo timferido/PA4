@@ -2,7 +2,7 @@
 
 // comparison operamaketor for node
 bool Node::operator<(const Node& other) {    
-    return actorName < other.actorName;
+    return dist < other.dist;
 }
 
 // Node::~Node() {}

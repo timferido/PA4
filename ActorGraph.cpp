@@ -211,7 +211,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		// 	nodeitr->second->prev = nullptr;
 		// }
 
-	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, greater<pair<int,Node*>>> pq;   //initialize priority queue 
+	priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, NodePtrComp> pq;   //initialize priority queue 
 	auto found = graph.find(actor_start);
 	Node* begin = found->second;  //find actor in graph
 	begin->dist = 0;    //set distance to 0 for that node
@@ -229,10 +229,10 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		//dq node v from front of q
 		Node* v = (pq.top()).second;
         
-        //break out if actor_end is found
-        if (v->actorName == actor_end) {
-            break;
-        }
+        // //break out if actor_end is found
+        // if (v->actorName == actor_end) {
+        //     break;
+        // }
         
 		resetAll.push(v);
 		pq.pop();
