@@ -8,7 +8,7 @@ using namespace std;
 
 class Node {
 public:
-    unordered_map<string,string> adj;
+    unordered_multimap<string,string> adj;
     string actorName;
     int dist;
     int index;

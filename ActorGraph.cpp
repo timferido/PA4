@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <queue>
+#include <unordered_set>
 #include <unordered_map>
 #include <string>
 #include <utility>
@@ -153,53 +154,24 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
 }
 
 
-void ActorGraph::printAdj(string name) {
-
-	//find actor in the graph
-	auto itractor = graph.begin();
-	auto endactor = graph.end();
-
-	while (itractor != endactor) {
-		
-		//compare the name field of curr actor to param
-		if (((*itractor).second)->actorName == name) {
-			break;
-		}
-		itractor++;
-	}
-
-
-	//actor was found
-	if (itractor != endactor) {
-
-		//print the contents of adj map
-		auto itradj = (((*itractor).second)->adj).begin();
-		auto endadj = (((*itractor).second)->adj).end();
-
-		//loop through the adjacency list
-		while (itradj != endadj) {
-			
-			//print each actor name
-			cout << itradj->first << '\t' << itradj->second << '\n';
-
-			itradj++;
-		}
-	} else {
-	//actor not found
-		cout << "actor does not exist.\n";	
-	}
-}
-
 int ActorGraph::countAdj(string name) {
 
 	auto found = graph.find(name);
-   int size = 0;
+	auto aNode = found->second;
+	int size = 0;
+	unordered_set<string> count;		//create unordered set 
 
 	if (found != graph.end()) {
-		size = ((found->second)->adj).size();
-   }
+		// size = ((found->second)->adj).size();
+		//loop through multimap adjlist and count only
+		//unique actors
+		
+		for (auto actor = (aNode->adj).begin(); actor != (aNode->adj).end(); actor++) {
+			count.insert(actor->first);
+		}
+	}
 
-   return size;
+	return (count.size());
 }
 
 
@@ -297,7 +269,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     Node* curr = endactor->second;
     Node* prev;
 	string movieyear;
-	unordered_map<string,string> adjList;
+	unordered_multimap<string,string> adjList;
     
     //get the path backwards
     while (curr->actorName != actor_start) {

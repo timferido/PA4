@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <map>
 #include <algorithm>
 #include <utility>
 // Maybe include some data structures here
@@ -60,8 +61,6 @@ class ActorGraph {
          * return true if file was loaded sucessfully, false otherwise
          */
         bool loadFromFile(const char* in_filename, bool use_weighted_edges);
-
-	void printAdj(string name);
 
     int countAdj(string name);
     
