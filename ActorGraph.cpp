@@ -268,6 +268,10 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		q.push(s);
 		s->dist = 0;
 		
+		//write to the string
+		path = "(" + q.front()->actorName + ")";
+		
+
 		while (!q.empty()) {
 			auto curr = q.front();
 			resetAll.push(curr);
