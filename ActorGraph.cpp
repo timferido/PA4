@@ -261,6 +261,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 
 					if (c < w->dist) {
 						w->prev = v;
+						w->prevMovie = itr->second;
 						w->dist = c;
 						pq.push(make_pair(c,w));
 					}
@@ -317,13 +318,13 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		prev = curr->prev;
 		
 		//get adjacency list
-		adjList = prev->adj;
+		//adjList = prev->adj;
 
-		auto x = adjList.find(curr->actorName);	
+		//auto x = adjList.find(curr->actorName);	
         
         //get movieyear by finding curr actor in prev actor adj list
         // movieyear = (prev->adj.find(curr->actorName))->second;
-		movieyear = x->second;
+		movieyear = curr->prevMovie;
 		
         istringstream ss( movieyear );
         vector <string> record;

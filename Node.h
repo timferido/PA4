@@ -14,6 +14,7 @@ public:
     int index;
     Node* prev;
     bool done;
+    string prevMovie;
 
     ///comparison class
     bool operator<(const Node& other);
