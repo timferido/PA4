@@ -85,12 +85,13 @@ void ActorGraph::createGraph(void) {
 			}
 		}
 	
-		//message
-		cout << "#edges: " << edgeCount << '\n';
 
 		}
 		itrmovie++;
 	}
+
+	//message
+	cout << "#edges: " << (edgeCount / 2) << '\n';
 }
 
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
