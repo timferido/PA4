@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 
     //load from file
     ActorGraph graph;
-    bool test = graph.loadFromFile(argv[1], false);
+    bool test = graph.ACloadFromFile(argv[1]);
 	
     // Initialize the file stream
     ifstream infile(argv[2]);
