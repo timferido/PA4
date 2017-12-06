@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 #include <map>
 #include <algorithm>
 #include <utility>
@@ -37,7 +38,7 @@ class ActorGraph {
 
         // Maybe add class data structure(s) here
 	std::unordered_map<std::string,std::vector<std::string>> movieMap;
-
+    std::unordered_map<int,std::unordered_set<std::string>> ACmovieMap;
     std::unordered_map<std::string,Node*> graph;
 
 	
@@ -50,7 +51,6 @@ class ActorGraph {
         // Maybe add some more methods here
 
         void createGraph(void);
-        void createEmptyGraph(void);
 
         /** You can modify this method definition as you wish
          *
@@ -62,13 +62,13 @@ class ActorGraph {
          * return true if file was loaded sucessfully, false otherwise
          */
         bool loadFromFile(const char* in_filename, bool use_weighted_edges);
+        bool ACloadFromFile(const char* in_filename);
 
     int countAdj(string name);
     
     // Node* find(string actor);
 
     int edgeWeight(string movieyear);
-
     string findPath(string actor_start, string actor_end, bool weighted);
 
     //actorconnection methods

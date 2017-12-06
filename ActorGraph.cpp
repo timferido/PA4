@@ -93,44 +93,6 @@ void ActorGraph::createGraph(void) {
 	cout << "#edges: " << edgeCount << '\n';
 }
 
-void ActorGraph::createEmptyGraph(void) {
-
-	int edgeCount = 0;
-
-	//iterate through movies
-	auto itrmovie = movieMap.begin();
-	auto endmovie = movieMap.end();
-
-	while (itrmovie != endmovie)
-	{
-		//first loop to establish actor nodes in graph
-		for (auto itractor = (itrmovie->second).begin(); itractor != (itrmovie->second).end(); ++itractor) {
-		
-			bool actorExist = false;
-
-			//check if actor is in graph
-			auto found = graph.find(*itractor);
-
-			Node* temp;
-
-			if (found != graph.end()) {
-				temp = (*found).second;
-			}
-			else {
-				temp = new Node(*itractor);
-				temp->dist = 32767;
-				graph.insert(make_pair(*itractor, temp));
-			}
-		}
-		itrmovie++;
-	}
-
-	//message
-	cout << "#nodes: " << graph.size() << '\n';
-	cout << "#movies: " << movieMap.size() << '\n';
-	cout << "#edges: " << edgeCount << '\n';
-}
-
 
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
     // Initialize the file stream
@@ -191,6 +153,97 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
 	//find the movie again and push the actor onto cast 
 	auto currMovie = movieMap.find(titleyear);
 	(currMovie->second).push_back(actor_name);
+    }
+
+    if (!infile.eof()) {
+        cerr << "Failed to read " << in_filename << "!\n";
+        return false;
+    }
+    infile.close();
+
+    return true;
+}
+
+bool ActorGraph::ACloadFromFile(const char* in_filename) {
+    // Initialize the file stream
+    ifstream infile(in_filename);
+
+    bool have_header = false;
+
+    //trackers
+    int currActorIdx = 0;
+
+    // keep reading lines until the end of file is reached
+    while (infile) {
+        string s;
+
+        // get the next line
+        if (!getline( infile, s )) break;
+
+        if (!have_header) {
+            // skip the header
+            have_header = true;
+            continue;
+        }
+
+        istringstream ss( s );
+        vector <string> record;
+
+        while (ss) {
+			string next;
+			
+            // get the next string before hitting a tab character and put it in 'next'
+            if (!getline( ss, next, '\t' )) break;
+
+            record.push_back( next );
+        }
+
+        if (record.size() != 3) {
+            // we should have exactly 3 columns
+            continue;
+        }
+
+        string actor_name(record[0]);
+        string movie_title(record[1]);
+        int movie_year = stoi(record[2]);
+
+        // we have an actor/movie relationship, now what?
+        // update the graph
+        string titleyear = movie_title +"\t" + record[2];
+		
+		
+		/*--------------POPULATE movieMap-------------------*/
+		//check if titleyear exists in the movieMap
+			//if so, then add actor to the corresponding vector
+			//if not, then create a new pair with titleyear and push actor onto vector
+
+		if (movieMap.find(titleyear) == movieMap.end()) {
+			std::vector<std::string> cast;
+			auto pear = std::pair<std::string,std::vector<std::string>>(titleyear,cast);
+			movieMap.insert(pear);
+		} 
+		//find the movie again and push the actor onto cast 
+		auto currMovie = movieMap.find(titleyear);
+		(currMovie->second).push_back(actor_name);
+
+		/*-----------------POPULATE graph--------------*/
+		if (graph.find(actor_name) != graph.end()) {
+			Node* temp = new Node(actor_name);
+			temp->dist = 32767;
+			graph.insert(make_pair(actor_name, temp));
+		}
+
+		/*-----------------POPULATE ACmovieMap--------------*/
+		//local variables
+		auto yearBucket = ACmovieMap.find(movie_year);
+
+		if (yearBucket != ACmovieMap.end()) {
+			yearBucket->second.insert(movie_title);
+		} else {
+			unordered_set<string> m;	//create new set 
+			m.insert(movie_title);	//insert first movie into set
+			ACmovieMap.insert(make_pair(movie_year, m));//first yearBucket
+		}
     }
 
     if (!infile.eof()) {
