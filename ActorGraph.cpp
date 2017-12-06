@@ -202,6 +202,9 @@ int ActorGraph::edgeWeight(string movieyear) {
 
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
 
+	//OUTPUT WHICH PAIR IS BEING FOUND	
+	cout << "Computing path for (" << actor_start << ") -> (" << actor_end << ")\n";
+
 	string path = "";	//will hold the path to return
 
 	//stack to reset all the nodes fields when done
@@ -219,8 +222,6 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		
 		//write to the string
 		path = "(" + ((pq.top()).second)->actorName + ")";
-
-		
 
 		while (!pq.empty()) {
 
