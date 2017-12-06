@@ -41,9 +41,6 @@ ActorGraph::~ActorGraph() {
 
 void ActorGraph::createGraph(void) {
 
-	//messages
-	cout << "#nodes: " << graph.size() << '\n';
-	cout << "#movies: " << movieMap.size() << '\n';
 	int edgeCount = 0;
 
   
@@ -91,7 +88,9 @@ void ActorGraph::createGraph(void) {
 	}
 
 	//message
-	cout << "#edges: " << (edgeCount / 2) << '\n';
+	cout << "#nodes: " << graph.size() << '\n';
+	cout << "#movies: " << movieMap.size() << '\n';
+	cout << "#edges: " << edgeCount << '\n';
 }
 
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
