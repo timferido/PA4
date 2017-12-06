@@ -28,7 +28,7 @@ using namespace std;
 class NodePtrComp {
 public: 
     bool operator() (pair<int, Node*> lhs, pair<int, Node*> rhs) const {
-        return (lhs.second) < (rhs.second);
+        return (lhs.first) < (rhs.first);
     }
 };
 
