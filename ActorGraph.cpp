@@ -40,6 +40,12 @@ ActorGraph::~ActorGraph() {
 }
 
 void ActorGraph::createGraph(void) {
+
+	//messages
+	cout << "#nodes: " << graph.size() << '\n';
+	cout << "#movies: " << movieMap.size() << '\n';
+	int edgeCount = 0;
+
   
 	//iterate through movies
 	auto itrmovie = movieMap.begin();
@@ -73,10 +79,14 @@ void ActorGraph::createGraph(void) {
 		//nested loop to add all the other actors to adjacency list
 		for(auto itrcast = (itrmovie->second).begin(); itrcast != (itrmovie->second).end(); ++itrcast) {
 			//check if actor is itself
-			if (*itrcast != *itractor)
+			if (*itrcast != *itractor) {
 				temp->adj.insert(std::pair<std::string,std::string>(*itrcast, (*itrmovie).first));
+				edgeCount++;
+			}
 		}
 	
+		//message
+		cout << "#edges: " << edgeCount << '\n';
 
 		}
 		itrmovie++;
