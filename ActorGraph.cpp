@@ -93,6 +93,45 @@ void ActorGraph::createGraph(void) {
 	cout << "#edges: " << edgeCount << '\n';
 }
 
+void ActorGraph::createEmptyGraph(void) {
+
+	int edgeCount = 0;
+
+	//iterate through movies
+	auto itrmovie = movieMap.begin();
+	auto endmovie = movieMap.end();
+
+	while (itrmovie != endmovie)
+	{
+		//first loop to establish actor nodes in graph
+		for (auto itractor = (itrmovie->second).begin(); itractor != (itrmovie->second).end(); ++itractor) {
+		
+			bool actorExist = false;
+
+			//check if actor is in graph
+			auto found = graph.find(*itractor);
+
+			Node* temp;
+
+			if (found != graph.end()) {
+				temp = (*found).second;
+			}
+			else {
+				temp = new Node(*itractor);
+				temp->dist = 32767;
+				graph.insert(make_pair(*itractor, temp));
+			}
+		}
+		itrmovie++;
+	}
+
+	//message
+	cout << "#nodes: " << graph.size() << '\n';
+	cout << "#movies: " << movieMap.size() << '\n';
+	cout << "#edges: " << edgeCount << '\n';
+}
+
+
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
     // Initialize the file stream
     ifstream infile(in_filename);

@@ -22,6 +22,8 @@ all: pathfinder main actorconnections
 
 pathfinder: ActorGraph.o pathfinder.o
 
+actorconnections: ActorGraph.o actorconnections.o
+
 main: main.o ActorGraph.o Node.o
 
 main.o: main.cpp

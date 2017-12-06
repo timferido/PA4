@@ -45,11 +45,12 @@ class ActorGraph {
     
 
         ActorGraph(void);
-	~ActorGraph();
+	    ~ActorGraph();
 
         // Maybe add some more methods here
 
         void createGraph(void);
+        void createEmptyGraph(void);
 
         /** You can modify this method definition as you wish
          *
@@ -69,6 +70,9 @@ class ActorGraph {
     int edgeWeight(string movieyear);
 
     string findPath(string actor_start, string actor_end, bool weighted);
+
+    //actorconnection methods
+    
 };
 
 
