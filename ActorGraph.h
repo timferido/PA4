@@ -64,15 +64,16 @@ class ActorGraph {
         bool loadFromFile(const char* in_filename, bool use_weighted_edges);
         bool ACloadFromFile(const char* in_filename);
 
-    int countAdj(string name);
-    
-    // Node* find(string actor);
+        int countAdj(string name);
+        
+        // Node* find(string actor);
 
-    int edgeWeight(string movieyear);
-    string findPath(string actor_start, string actor_end, bool weighted);
+        int edgeWeight(string movieyear);
+        string findPath(string actor_start, string actor_end, bool weighted);
 
-    //actorconnection methods
-    
+        //actorconnection methods
+        string ACbfs(string actor_start, string actor_end);
+        string ACufind(string actor_start, string actor_end);
 };
 
 

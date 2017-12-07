@@ -69,18 +69,16 @@ void ActorGraph::createGraph(void) {
 				graph.insert(make_pair(*itractor, temp));
             }
 		
-		
-
-		//add the actor to the adjacency list of current actor node
-		//check if actor is itself
-		//nested loop to add all the other actors to adjacency list
-		for(auto itrcast = (itrmovie->second).begin(); itrcast != (itrmovie->second).end(); ++itrcast) {
+			//add the actor to the adjacency list of current actor node
 			//check if actor is itself
-			if (*itrcast != *itractor) {
-				temp->adj.insert(std::pair<std::string,std::string>(*itrcast, (*itrmovie).first));
-				edgeCount++;
+			//nested loop to add all the other actors to adjacency list
+			for(auto itrcast = (itrmovie->second).begin(); itrcast != (itrmovie->second).end(); ++itrcast) {
+				//check if actor is itself
+				if (*itrcast != *itractor) {
+					temp->adj.insert(make_pair(*itrcast, (*itrmovie).first));
+					edgeCount++;
+				}
 			}
-		}
 	
 
 		}
@@ -214,8 +212,8 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
 		
 		/*--------------POPULATE movieMap-------------------*/
 		//check if titleyear exists in the movieMap
-			//if so, then add actor to the corresponding vector
-			//if not, then create a new pair with titleyear and push actor onto vector
+		//if so, then add actor to the corresponding vector
+		//if not, then create a new pair with titleyear and push actor onto vector
 
 		if (movieMap.find(titleyear) == movieMap.end()) {
 			std::vector<std::string> cast;
@@ -254,7 +252,6 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
 
     return true;
 }
-
 
 int ActorGraph::countAdj(string name) {
 
@@ -461,3 +458,60 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 	return path;
 }
 
+/*-----------------------------------------------------*/
+string ActorGraph::ACbfs(string actor_start, string actor_end) {
+
+	//local variables
+	int currYear = 2016;
+	bool connected = false;
+
+	//find earliest year in acmoviemap
+	for (auto i = ACmovieMap.begin(); i != ACmovieMap.end(); i++) {
+		if ((i->first) < currYear)
+			currYear = i->first;
+	}
+
+	//while the actors are not connected or not all movies 
+	//have been added
+	while (currYear < 2016) {
+
+		//find year in acmoviemap
+		auto yearBucket = ACmovieMap.find(currYear);	
+		
+		//go to next year if not in acmoviemap
+		if (yearBucket == ACmovieMap.end()) { 
+			currYear++; 
+			continue; 
+		}
+
+		/*-------ADD CONNECTIONS FOR YEAR----------*/
+		//parse through all movies for that year
+		auto mitr = yearBucket->second.begin();
+		auto mend = yearBucket->second.end();
+		while (mitr != mend) {
+			auto m = movieMap.find(*mitr);
+			auto cast = m->second;
+			for(auto j = cast.begin(); j != cast.end(); j++) {
+				auto t = graph.find(*j);
+				for(auto i = cast.begin(); i != cast.end(); i++) {
+					//check if actor is itself
+					if ( (*i) != (*j) ) {
+						t->second->adj.insert(make_pair(*i, m->first));
+						// edgeCount++;
+					}
+				}
+			}
+		}
+
+		/*------BFS SEARCH FROM START ACTOR---------*/
+		
+		currYear++;	//go to next year
+	}
+
+	return "";
+}
+
+/*-----------------------------------------------------*/
+string ActorGraph::ACufind(string actor_start, string actor_end) {
+	return "";
+}
