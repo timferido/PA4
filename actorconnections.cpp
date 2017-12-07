@@ -65,9 +65,9 @@ int main(int argc, char* argv[]) {
         string actor_end(record[1]);
 
         if (argv[4][0] == 'b') {
-
+			outfile << graph.ACbfs(actor_start, actor_end) << '\n';
 		} else {
-
+			outfile << graph.ACufind(actor_start, actor_end) << '\n';
 		}
     }
 

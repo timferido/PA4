@@ -508,10 +508,10 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 		currYear++;	//go to next year
 	}
 
-	return "";
+	return "bfs";
 }
 
 /*-----------------------------------------------------*/
 string ActorGraph::ACufind(string actor_start, string actor_end) {
-	return "";
+	return "ufind";
 }
