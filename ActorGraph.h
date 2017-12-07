@@ -74,6 +74,9 @@ class ActorGraph {
         //actorconnection methods
         string ACbfs(string actor_start, string actor_end);
         string ACufind(string actor_start, string actor_end);
+
+        /*utility*/
+        void resetAdj(void);
 };
 
 

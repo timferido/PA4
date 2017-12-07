@@ -461,7 +461,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 /*-----------------------------------------------------*/
 string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
-	cout << "Computing: " <<actor_start <<", "<<actor_end<<'\n';
+	cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 
 	//local variables
 	int currYear = 2016;
@@ -532,6 +532,7 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 					c->dist = 32767;
 					c->prev = nullptr;
 				}
+				resetAdj();
 				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
 			}
 
@@ -558,10 +559,17 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 		currYear++;	//go to next year
 	}
 
+	resetAdj();
 	return actor_start+"\t"+actor_end+"\t9999";
 }
 
 /*-----------------------------------------------------*/
 string ActorGraph::ACufind(string actor_start, string actor_end) {
 	return "ufind";
+}
+
+void ActorGraph::resetAdj(void) {
+	for(auto i = graph.begin();i!=graph.end();i++){
+		i->second->adj.clear();
+	}
 }
