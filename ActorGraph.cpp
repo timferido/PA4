@@ -225,7 +225,7 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
 		(currMovie->second).push_back(actor_name);
 
 		/*-----------------POPULATE graph--------------*/
-		if (graph.find(actor_name) != graph.end()) {
+		if (graph.find(actor_name) == graph.end()) {
 			Node* temp = new Node(actor_name);
 			temp->dist = 32767;
 			graph.insert(make_pair(actor_name, temp));
