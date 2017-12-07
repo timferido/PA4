@@ -461,6 +461,8 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 /*-----------------------------------------------------*/
 string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
+	cout << "Computing: " <<actor_start <<", "<<actor_end<<'\n';
+
 	//local variables
 	int currYear = 2016;
 	bool connected = false;
