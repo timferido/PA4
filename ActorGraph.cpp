@@ -501,6 +501,7 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 					}
 				}
 			}
+			mitr++;
 		}
 
 		/*------BFS SEARCH FROM START ACTOR---------*/
