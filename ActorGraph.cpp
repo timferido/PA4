@@ -505,11 +505,50 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 		}
 
 		/*------BFS SEARCH FROM START ACTOR---------*/
+
+		stack<Node*> resetAll;
+
+		queue<Node*> q;
+		auto found = graph.find(actor_start);
+		auto s = found->second;
+		q.push(s);
+		s->dist = 0;
+		
+		//write to the string
+		// path = "(" + q.front()->actorName + ")";
+		
+		while (!q.empty()) {
+			auto curr = q.front();
+			resetAll.push(curr);
+
+			if (curr->actorName == actor_end) {
+				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
+			}
+
+			q.pop();
+			for (auto itr = curr->adj.begin(); itr != curr->adj.end(); itr++) {
+				auto n = graph.find(itr->first)->second;
+				if (n->dist == 32767) {
+					n->dist = curr->dist+1;
+					n->prev = curr;
+					q.push(n);
+				}
+			}
+		}
+
+		//now reset ALL THE NODES
+		while (!resetAll.empty()) {
+			Node* c = resetAll.top();
+			resetAll.pop();
+			c->done = false;
+			c->dist = 32767;
+			c->prev = nullptr;
+		}
 		
 		currYear++;	//go to next year
 	}
 
-	return "bfs";
+	return actor_start+"\t"+actor_end+"\t9999";
 }
 
 /*-----------------------------------------------------*/
