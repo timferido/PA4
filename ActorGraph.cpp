@@ -489,7 +489,7 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 		auto mitr = yearBucket->second.begin();
 		auto mend = yearBucket->second.end();
 		while (mitr != mend) {
-			auto m = movieMap.find(*mitr);
+			auto m = movieMap.find(*mitr+"\t"+to_string(currYear));
 			auto cast = m->second;
 			for(auto j = cast.begin(); j != cast.end(); j++) {
 				auto t = graph.find(*j);
