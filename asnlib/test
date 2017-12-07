@@ -1,0 +1,4 @@
+(actor)--[movie#@year]-->(actor)--...
+(CUBE, ICE)--[BEEF#@2001]-->(WAYNE, MARLON)--[HAUNTED HOUSE#@2002]-->(DAMON, MATT)
+(CUBE, ICE)--[BEEF#@2001]-->(WAYNE, MARLON)
+(WAYNE, MARLON)--[HAUNTED HOUSE#@2002]-->(DAMON, MATT)
