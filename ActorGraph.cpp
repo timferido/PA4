@@ -522,20 +522,6 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 		while (!q.empty()) {
 			auto curr = q.front();
 			resetAll.push(curr);
-
-			if (curr->actorName == actor_end) {
-				//now reset ALL THE NODES
-				while (!resetAll.empty()) {
-					Node* c = resetAll.top();
-					resetAll.pop();
-					c->done = false;
-					c->dist = 32767;
-					c->prev = nullptr;
-				}
-				resetAdj();
-				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
-			}
-
 			q.pop();
 			for (auto itr = curr->adj.begin(); itr != curr->adj.end(); itr++) {
 				auto n = graph.find(itr->first)->second;
@@ -545,6 +531,40 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 					q.push(n);
 				}
 			}
+		}
+		
+		//find the last actor
+		auto endactor = graph.find(actor_end);
+    
+		//set the curr node to the end actor
+		Node* curr = endactor->second;
+    
+		//get previous node
+		curr = curr->prev;
+		
+		//get the path backwards
+		while (curr != nullptr) {
+			
+			//if actor found
+			if (curr->actorName == actor_start) {
+				
+				//now reset ALL THE NODES
+				while (!resetAll.empty()) {
+					Node* c = resetAll.top();
+					resetAll.pop();
+					c->done = false;
+					c->dist = 32767;
+					c->prev = nullptr;
+				}
+				resetAdj();
+				
+				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
+				
+			}
+			
+			//get previous node
+			curr = curr->prev;
+				
 		}
 
 		//now reset ALL THE NODES
