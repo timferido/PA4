@@ -522,6 +522,14 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 			resetAll.push(curr);
 
 			if (curr->actorName == actor_end) {
+				//now reset ALL THE NODES
+				while (!resetAll.empty()) {
+					Node* c = resetAll.top();
+					resetAll.pop();
+					c->done = false;
+					c->dist = 32767;
+					c->prev = nullptr;
+				}
 				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
 			}
 
