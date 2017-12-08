@@ -660,10 +660,10 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 						uptree.insert(make_pair(*j, firstactor));
 					} else {
 						//get to root and join with firstactor
-				// 		auto a = root(curr, uptree);
-				// 		auto b = root(first, uptree);
+						auto a = root(curr, uptree);
+						auto b = root(first, uptree);
 						
-				// 		a->second = b->first;
+						a->second = b->first;
 					}
 				}
 			}
