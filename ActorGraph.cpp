@@ -645,18 +645,22 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 			
 			//get first actor
 			string firstactor = *(cast.begin());
-			if (uptree.find(firstactor) == uptree.end()) {
+			ufnode first = uptree.find(firstactor);
+			if (first == uptree.end()) {
 				uptree.insert(make_pair(firstactor, ""));
+				first = uptree.find(firstactor);
 			}
 			
 			for(auto j = cast.begin(); j != cast.end(); j++) {
-				//connect all cast member to first actor
+				//union to first actor
 				if (*j != firstactor) {
-					if (uptree.find(*j) == uptree.end()) {
+					auto curr = uptree.find(*j);
+					if (curr == uptree.end()) {
 						uptree.insert(make_pair(*j, firstactor));
 					} else {
-						(uptree.find(*j))->second = firstactor;
-
+						//get to root and join with firstactor
+						auto a = root(curr, uptree);
+						auto b = root(first, uptree);
 					}
 				}
 			}
@@ -747,4 +751,14 @@ long long Timer::end_timer()
     end = std::chrono::high_resolution_clock::now();
     
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+}
+
+ufnode ActorGraph::root(ufnode x, unordered_map<string,string> &m) {
+	auto curr = m.find(x->first);
+	string p = x->second;
+	while (p != "") {
+		curr = m.find(p);
+		p = curr->second;
+	}
+	return curr;
 }

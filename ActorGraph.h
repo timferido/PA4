@@ -29,6 +29,8 @@
 
 using namespace std;
 
+typedef unordered_map<string,string>::iterator ufnode;
+
 class NodePtrComp {
 public: 
     bool operator() (pair<int, Node*> lhs, pair<int, Node*> rhs) const {
@@ -82,6 +84,10 @@ class ActorGraph {
         void resetAdj(void);
         void begin_timer();
         long long end_timer();
+
+        /*dijointset*/
+        
+        ufnode root(ufnode x, unordered_map<string,string> &m);
         
 };
 
