@@ -608,7 +608,124 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
 /*-----------------------------------------------------*/
 string ActorGraph::ACufind(string actor_start, string actor_end) {
-	return "ufind";
+cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
+
+	//local variables
+	int currYear = 2016;
+	unordered_map<string, string> uptree;
+
+	//find earliest year in acmoviemap
+	for (auto i = ACmovieMap.begin(); i != ACmovieMap.end(); i++) {
+		if ((i->first) < currYear)
+			currYear = i->first;
+	}
+
+	//while the actors are not connected or not all movies 
+	//have been added
+
+	//Timer t1, t;
+	//float totalConnect = 0;
+	
+
+	while (currYear < 2016) {
+
+		//find year in acmoviemap
+		auto yearBucket = ACmovieMap.find(currYear);	
+		
+		//go to next year if not in acmoviemap
+		if (yearBucket == ACmovieMap.end()) { 
+			currYear++; 
+			continue; 
+		}
+
+		/*-------ADD CONNECTIONS FOR YEAR----------*/
+
+		//t1.begin_timer();
+
+		//parse through all movies for that year
+		auto mitr = yearBucket->second.begin();
+		auto mend = yearBucket->second.end();
+		while (mitr != mend) {
+			auto m = movieMap.find(*mitr+"\t"+to_string(currYear));
+			auto cast = m->second;
+			
+			//get first actor
+			string firstactor = *(cast.begin());
+			uptree.insert(make_pair(firstactor, ""));
+			
+			for(auto j = cast.begin(); j != cast.end(); j++) {
+				//connect all cast member to first actor
+				if (*j != firstactor) {
+					uptree.insert(make_pair(*j, firstactor));
+				}
+			}
+			
+			mitr++;
+		}
+
+		//totalConnect += t1.end_timer();
+		
+		/*------COMPRESS ALL PATHS---------*/
+		
+		//iterate through all actors
+		for (auto i = uptree.begin(); i != uptree.end(); i ++) {
+			
+			//get parent and grandparent
+			auto curr = uptree.find(i->first);
+			string parent = curr->second;
+			string grandparent;
+			
+			if (parent != "") {
+				grandparent = (uptree.find(parent))->second;
+			}
+			
+			//check if it needs to be compressed
+			if (!(parent == "" || grandparent == "")) {
+				
+				while (grandparent != "") {
+					
+					//compress the path
+					curr->second = grandparent;
+					
+					//get new grandparent
+					parent = curr->second;
+					grandparent = (uptree.find(parent))->second;
+				}
+			}
+		}
+
+		/*------CONDUCT UNION FIND FOR CONNECTIONS---------*/
+
+		//find the wanted actors in map
+		auto itract1 = uptree.find(actor_start);
+		auto itract2 = uptree.find(actor_end);
+		
+		//check if both in the map
+		if (itract1 != uptree.end() && itract2 != uptree.end()) {
+			
+			//get their parent
+			string actor1par = itract1->second;
+			string actor2par = itract2->second;
+			
+			//compare parents
+			if (actor1par == actor2par) {
+				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
+			}
+		}
+
+		//timer start
+		
+		//t.begin_timer();
+
+		
+
+	//cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
+	//cout <<currYear<<" bfs: " << t.end_timer() << " milliseconds.\n";
+
+		currYear++;	//go to next year
+	}
+	
+	return actor_start+"\t"+actor_end+"\t9999";
 }
 
 void ActorGraph::resetAdj(void) {
