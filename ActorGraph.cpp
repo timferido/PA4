@@ -650,6 +650,7 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 				uptree.insert(make_pair(firstactor, ""));
 				first = uptree.find(firstactor);
 			}
+
 			
 			for(auto j = cast.begin(); j != cast.end(); j++) {
 				//union to first actor
@@ -697,11 +698,6 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 		
 		//check if both in the map
 		if (itract1 != uptree.end() && itract2 != uptree.end()) {
-			
-			string check1 = itract1->second;
-			string check2 = itract2->second;
-			
-
 			
 			//get their parent
 			string actor1par = itract1->second;
