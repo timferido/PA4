@@ -14,7 +14,7 @@ ifeq ($(type),opt)
 			    LDFLAGS += -g
 			endif
 
-all: pathfinder main actorconnections
+all: util.o pathfinder main actorconnections
 
 
 
@@ -34,6 +34,8 @@ actorconnections.o: actorconnections.cpp
 
 # include what ever source code *.h files ActorGraph relies on (these are merely the ones that were used in the solution)
 Node.o: Node.h
+
+util.o: util.h
 
 # Note: you do not have to include a *.cpp file if it aleady has a paired *.h file that is already included with class/method headers
 

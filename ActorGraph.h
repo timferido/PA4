@@ -21,6 +21,9 @@
 #include <string>
 #include <queue>
 #include <sstream>
+//timer
+#include <chrono>
+
 
 #include "Node.h"
 
@@ -77,6 +80,9 @@ class ActorGraph {
 
         /*utility*/
         void resetAdj(void);
+        void begin_timer();
+        long long end_timer();
+        
 };
 
 

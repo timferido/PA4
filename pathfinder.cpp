@@ -7,6 +7,7 @@ Description: This file is the pathfinder executable program which
 
 #include <iostream>
 #include "ActorGraph.h"
+#include "util.h"
 #include <fstream>
 #include <queue>
 #include <string>

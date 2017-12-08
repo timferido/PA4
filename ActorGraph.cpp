@@ -19,6 +19,7 @@
 #include <stack>
 #include <algorithm>
 #include "ActorGraph.h"
+#include "util.h"
 
 
 using namespace std;
@@ -475,6 +476,11 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
 	//while the actors are not connected or not all movies 
 	//have been added
+
+	Timer t1, t;
+	float totalConnect = 0;
+	
+
 	while (currYear < 2016) {
 
 		//find year in acmoviemap
@@ -487,6 +493,9 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 		}
 
 		/*-------ADD CONNECTIONS FOR YEAR----------*/
+
+		t1.begin_timer();
+
 		//parse through all movies for that year
 		auto mitr = yearBucket->second.begin();
 		auto mend = yearBucket->second.end();
@@ -506,7 +515,14 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 			mitr++;
 		}
 
+		totalConnect += t1.end_timer();
+		
+
 		/*------BFS SEARCH FROM START ACTOR---------*/
+
+		//timer start
+		
+		t.begin_timer();
 
 		stack<Node*> resetAll;
 
@@ -557,6 +573,9 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 					c->prev = nullptr;
 				}
 				resetAdj();
+
+				cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
+				cout <<currYear<<" bfs: "<< t.end_timer() << " milliseconds.\n";
 				
 				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
 				
@@ -580,6 +599,10 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 	}
 
 	resetAdj();
+
+	cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
+	cout <<currYear<<" bfs: " << t.end_timer() << " milliseconds.\n";
+
 	return actor_start+"\t"+actor_end+"\t9999";
 }
 
@@ -592,4 +615,23 @@ void ActorGraph::resetAdj(void) {
 	for(auto i = graph.begin();i!=graph.end();i++){
 		i->second->adj.clear();
 	}
+}
+
+/*----------TIMER----------*/
+void Timer::begin_timer()
+{
+    
+    start = std::chrono::high_resolution_clock::now();
+}
+
+/*
+ * Ends the timer. Compares end time with the start time and returns number of nanoseconds
+ */
+long long Timer::end_timer()
+{
+    
+    std::chrono::time_point<std::chrono::high_resolution_clock> end;
+    end = std::chrono::high_resolution_clock::now();
+    
+    return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
