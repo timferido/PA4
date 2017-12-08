@@ -648,6 +648,7 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 			ufnode first = uptree.find(firstactor);
 			if (first == uptree.end()) {
 				uptree.insert(make_pair(firstactor, ""));
+				first = uptree.find(firstactor);
 			}
 			
 			for(auto j = cast.begin(); j != cast.end(); j++) {
