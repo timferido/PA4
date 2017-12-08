@@ -623,10 +623,6 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 	//while the actors are not connected or not all movies 
 	//have been added
 
-	//Timer t1, t;
-	//float totalConnect = 0;
-	
-
 	while (currYear < 2016) {
 
 		//find year in acmoviemap
@@ -640,8 +636,6 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 
 		/*-------ADD CONNECTIONS FOR YEAR----------*/
 
-		//t1.begin_timer();
-
 		//parse through all movies for that year
 		auto mitr = yearBucket->second.begin();
 		auto mend = yearBucket->second.end();
@@ -651,12 +645,18 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 			
 			//get first actor
 			string firstactor = *(cast.begin());
-			uptree.insert(make_pair(firstactor, ""));
+			if (uptree.find(firstactor) == uptree.end()) {
+				uptree.insert(make_pair(firstactor, ""));
+			}
 			
 			for(auto j = cast.begin(); j != cast.end(); j++) {
 				//connect all cast member to first actor
 				if (*j != firstactor) {
-					uptree.insert(make_pair(*j, firstactor));
+					if (uptree.find(*j) == uptree.end()) {
+						uptree.insert(make_pair(*j, firstactor));
+					} else {
+						(uptree.find(*j))->second = firstactor;
+					}
 				}
 			}
 			
@@ -668,7 +668,7 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 		/*------COMPRESS ALL PATHS---------*/
 		
 		//iterate through all actors
-		for (auto i = uptree.begin(); i != uptree.end(); i ++) {
+		for (auto i = uptree.begin(); i != uptree.end(); i++) {
 			
 			//get parent and grandparent
 			auto curr = uptree.find(i->first);
