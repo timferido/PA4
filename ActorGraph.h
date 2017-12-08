@@ -87,7 +87,7 @@ class ActorGraph {
 
         /*dijointset*/
         
-        ufnode root(ufnode x, unordered_map<string,string> m);
+        ufnode root(ufnode x, unordered_map<string,string> &m);
         
 };
 

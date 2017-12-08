@@ -759,7 +759,7 @@ long long Timer::end_timer()
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 
-ufnode ActorGraph::root(ufnode x, unordered_map<string,string> m) {
+ufnode ActorGraph::root(ufnode x, unordered_map<string,string> &m) {
 	auto curr = m.find(x->first);
 	string p = x->second;
 	while (p != "") {
