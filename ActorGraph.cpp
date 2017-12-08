@@ -656,6 +656,7 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 						uptree.insert(make_pair(*j, firstactor));
 					} else {
 						(uptree.find(*j))->second = firstactor;
+
 					}
 				}
 			}
@@ -670,28 +671,18 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 		//iterate through all actors
 		for (auto i = uptree.begin(); i != uptree.end(); i++) {
 			
-			//get parent and grandparent
 			auto curr = uptree.find(i->first);
-			string parent = curr->second;
-			string grandparent;
+			auto path = curr;
+			string toRoot = curr->second;
 			
-			if (parent != "") {
-				grandparent = (uptree.find(parent))->second;
+			//go to the root from the actor
+			while (toRoot != "") {
+				path = uptree.find(toRoot);
+				toRoot = path->second;
 			}
 			
-			//check if it needs to be compressed
-			if (!(parent == "" || grandparent == "")) {
-				
-				while (grandparent != "") {
-					
-					//compress the path
-					curr->second = grandparent;
-					
-					//get new grandparent
-					parent = curr->second;
-					grandparent = (uptree.find(parent))->second;
-				}
-			}
+			//set the root as curr's parent
+			curr->second = toRoot;
 		}
 
 		/*------CONDUCT UNION FIND FOR CONNECTIONS---------*/
@@ -702,6 +693,11 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 		
 		//check if both in the map
 		if (itract1 != uptree.end() && itract2 != uptree.end()) {
+			
+			string check1 = itract1->second;
+			string check2 = itract2->second;
+			
+
 			
 			//get their parent
 			string actor1par = itract1->second;
