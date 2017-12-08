@@ -650,12 +650,20 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 			}
 			
 			for(auto j = cast.begin(); j != cast.end(); j++) {
-				//connect all cast member to first actor
+				//union to first actor
 				if (*j != firstactor) {
-					if (uptree.find(*j) == uptree.end()) {
+					auto curr = uptree.find(*j);
+					if (curr == uptree.end()) {
 						uptree.insert(make_pair(*j, firstactor));
 					} else {
-						(uptree.find(*j))->second = firstactor;
+						//get to root and join with firstactor
+						
+						string p = curr->second;
+						while (p != "") {
+							curr = uptree.find(p);
+							p = curr->second;
+						}
+						curr->second = firstactor;
 					}
 				}
 			}
