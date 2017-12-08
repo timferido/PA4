@@ -650,6 +650,7 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 				uptree.insert(make_pair(firstactor, ""));
 				first = uptree.find(firstactor);
 			}
+
 			
 			for(auto j = cast.begin(); j != cast.end(); j++) {
 				//union to first actor
@@ -659,10 +660,10 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 						uptree.insert(make_pair(*j, firstactor));
 					} else {
 						//get to root and join with firstactor
-						auto a = root(curr, uptree);
-						auto b = root(first, uptree);
+				// 		auto a = root(curr, uptree);
+				// 		auto b = root(first, uptree);
 						
-						a->second = b->first;
+				// 		a->second = b->first;
 					}
 				}
 			}
@@ -689,15 +690,18 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 			//check if it needs to be compressed
 			if (!(parent == "" || grandparent == "")) {
 				
-				while (grandparent != "") {
+				// while (grandparent != "") {
 					
-					//compress the path
-					curr->second = grandparent;
+				// 	// //compress the path
+				// 	// curr->second = grandparent;
 					
-					//get new grandparent
-					parent = curr->second;
-					grandparent = (uptree.find(parent))->second;
-				}
+				// 	// //get new grandparent
+				// 	// parent = curr->second;
+				// 	// grandparent = (uptree.find(parent))->second;
+					
+				// }
+				auto sentinel = root(curr, uptree);
+				curr->second = sentinel->first;
 			}
 		}
 
@@ -710,9 +714,9 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 		//check if both in the map
 		if (itract1 != uptree.end() && itract2 != uptree.end()) {
 			
-			//get their parent
-			string actor1par = itract1->second;
-			string actor2par = itract2->second;
+			//get their root
+			string actor1par = root(itract1,uptree)->first;
+			string actor2par = root(itract2,uptree)->first;
 			
 			//compare parents
 			if (actor1par == actor2par) {
