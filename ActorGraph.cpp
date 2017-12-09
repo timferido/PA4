@@ -293,11 +293,15 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
 
     return true;
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: countAdj
+Description: counts the number of unique adjacencies for the given node
+Input: string name
+Output: int - the unique adjacencies
 -----------------------------------------------------------------------------*/
 int ActorGraph::countAdj(string name) {
 
