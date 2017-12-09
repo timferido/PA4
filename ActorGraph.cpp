@@ -299,8 +299,8 @@ int ActorGraph::countAdj(string name) {
         //loop through multimap adjlist and count only
         //unique actors
         
-        for (auto actor = (aNode->adj).begin(); actor != (aNode->adj).end(); actor++) {
-            count.insert(actor->first);
+        for (auto a = (aNode->adj).begin(); a != (aNode->adj).end(); a++) {
+            count.insert(a->first);
         }
     }
     return (count.size());
