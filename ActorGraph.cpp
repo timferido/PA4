@@ -28,10 +28,10 @@ using namespace std;
 
 
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ActorGraph
+Description: constructor
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 ActorGraph::ActorGraph(void) {}
 
@@ -39,10 +39,10 @@ ActorGraph::ActorGraph(void) {}
 
 
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ~ActorGraph
+Description: destructor
+Input: none 
+Output: none
 -----------------------------------------------------------------------------*/
 ActorGraph::~ActorGraph() {
 
