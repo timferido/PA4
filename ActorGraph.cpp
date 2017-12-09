@@ -486,10 +486,11 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     return path;
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ACbfs
+Description: finds the year in which two actors become connected by adding the
+movies year by year and doing a breadth first search through current graph
+Input: string actor_start, string actor_end
+Output: string - first actor \t second actor \t year in which they connect
 -----------------------------------------------------------------------------*/
 string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
