@@ -39,15 +39,15 @@ Output:
 -----------------------------------------------------------------------------*/
 ActorGraph::~ActorGraph() {
 
-    //parse through graph deleting nodes
+    //parse through graph deleting nodes with iterators
+    auto itr = graph.begin();
+    auto end = graph.end();
 
-        auto itr = graph.begin();
-        auto end = graph.end();
-
-        while (itr != end) {
-            delete itr->second;
-            itr++;
-        }        
+    //delete Nodes
+    while (itr != end) {
+        delete itr->second;
+        itr++;
+    }        
 }
 /*-----------------------------------------------------------------------------
 Function:
@@ -57,28 +57,30 @@ Output:
 -----------------------------------------------------------------------------*/
 void ActorGraph::createGraph(void) {
 
+    //count edges in the graph
     int edgeCount = 0;
 
-  
     //iterate through movies
     auto itrmovie = movieMap.begin();
     auto endmovie = movieMap.end();
 
+    //use while loop to iterate
     while (itrmovie != endmovie)
     {
         //first loop to establish actor nodes in graph
         for (auto itractor = (itrmovie->second).begin(); itractor != (itrmovie->second).end(); ++itractor) {
-        
-            bool actorExist = false;
 
             //check if actor is in graph
             auto found = graph.find(*itractor);
 
+            //create temporary Node
             Node* temp;
 
+            //if found in graph, set actor to temp
             if (found != graph.end()) {
                 temp = (*found).second;
             }
+            //if not found in graph, create new Node with actor and insert
             else {
                 temp = new Node(*itractor);
                 temp->dist = 32767;
@@ -86,19 +88,20 @@ void ActorGraph::createGraph(void) {
             }
         
             //add the actor to the adjacency list of current actor node
-            //check if actor is itself
-			//nested loop to add all the other actors to adjacency list
-			auto e = (itrmovie->second).end();
+            auto e = (itrmovie->second).end();
             for(auto i=(itrmovie->second).begin();i!=e;++i) {
                 //check if actor is itself
                 if (*i != *itractor) {
+                    //add other actors in curent actors adjList
                     temp->adj.insert(make_pair(*i, (*itrmovie).first));
                     edgeCount++;
                 }
             }
         }
+        //increment the movie
         itrmovie++;
     }
+    
     //message
     cout << "#nodes: " << graph.size() << '\n';
     cout << "#movies: " << movieMap.size() << '\n';
@@ -139,8 +142,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
         while (ss) {
             string next;
             
-			// get the next string before hitting a tab character and put it in
-			// 'next'
+            // get the next string before hitting a tab character and put it in
+            // 'next'
             if (!getline( ss, next, '\t' )) break;
 
             record.push_back( next );
@@ -161,8 +164,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
         
     //check if titleyear exists in the movieMap
         //if so, then add actor to the corresponding vector
-		//if not, then create a new pair with titleyear and push actor onto 
-		//vector
+        //if not, then create a new pair with titleyear and push actor onto 
+        //vector
 
     if (movieMap.find(titleyear) == movieMap.end()) {
         std::vector<std::string> cast;
@@ -216,8 +219,8 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
         while (ss) {
             string next;
             
-			// get the next string before hitting a tab character and put it in
-			// 'next'
+            // get the next string before hitting a tab character and put it in
+            // 'next'
             if (!getline( ss, next, '\t' )) break;
 
             record.push_back( next );
@@ -235,47 +238,57 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
         // update the graph
         string titleyear = movie_title +"\t" + record[2];
         
+        
+        
         /*--------------POPULATE movieMap-------------------*/
-        //check if titleyear exists in the movieMap
-        //if so, then add actor to the corresponding vector
-		//if not, then create a new pair with titleyear and push actor onto 
-		//vector
-
+            
+        //create a new pair with titleyear and cast if not found
         if (movieMap.find(titleyear) == movieMap.end()) {
             std::vector<std::string> cast;
             auto pear = std::pair<std::string,vector<string>>(titleyear,cast);
             movieMap.insert(pear);
         } 
+        
         //find the movie again and push the actor onto cast 
         auto currMovie = movieMap.find(titleyear);
         (currMovie->second).push_back(actor_name);
-
+        
+        
+        
         /*-----------------POPULATE graph--------------*/
+        //populate an empty graph by not adding actors to adjList
         if (graph.find(actor_name) == graph.end()) {
             Node* temp = new Node(actor_name);
             temp->dist = 32767;
             graph.insert(make_pair(actor_name, temp));
         }
 
+        
+        
         /*-----------------POPULATE ACmovieMap--------------*/
         //local variables
         auto yearBucket = ACmovieMap.find(movie_year);
 
+        //if the year exists, add movie to ACmovieMap of that year
         if (yearBucket != ACmovieMap.end()) {
             yearBucket->second.insert(movie_title);
+            
+        //if not, create new year and insert movie into that year
         } else {
-            unordered_set<string> m;    //create new set 
-            m.insert(movie_title);    //insert first movie into set
+            unordered_set<string> m;                    //create new set 
+            m.insert(movie_title);                      //insert first movie into set
             ACmovieMap.insert(make_pair(movie_year, m));//first yearBucket
         }
     }
 
+    //infile check
     if (!infile.eof()) {
         cerr << "Failed to read " << in_filename << "!\n";
         return false;
     }
     infile.close();
     
+    //output message
     cout << "#nodes: " << graph.size() << '\n';
     cout << "#movies: " << movieMap.size() << '\n';
     cout << "#edges: 0\n\n";
@@ -349,7 +362,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     /*---------------WEIGHTED---------------------*/
     if (weighted) {
 
-		//initialize priority queue 
+        //initialize priority queue 
         priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, NodePtrComp> pq;   
         auto found = graph.find(actor_start);
         Node* begin = found->second;  //find actor in graph
@@ -391,7 +404,6 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
             }
         }
     } 
-    /*---------------------WEIGHTED------------------*/
         
     /*---------------------UNWEIGHTED----------------*/
     else {
@@ -493,6 +505,7 @@ Output:
 -----------------------------------------------------------------------------*/
 string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
+    //output message
     cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 
     //local variables
@@ -518,42 +531,70 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
             continue; 
         }
 
+        
+        
         /*-------ADD CONNECTIONS FOR YEAR----------*/
         //parse through all movies for that year
         auto mitr = yearBucket->second.begin();
         auto mend = yearBucket->second.end();
+        
+        //use while loop to parse
         while (mitr != mend) {
+            
+            //get the cast
             auto m = movieMap.find(*mitr+"\t"+to_string(currYear));
             auto cast = m->second;
+            
+            //for each actor in cast
             for(auto j = cast.begin(); j != cast.end(); j++) {
+                //find the actor in graph
                 auto t = graph.find(*j);
+                
+                //for each actor in cast
                 for(auto i = cast.begin(); i != cast.end(); i++) {
                     //check if actor is itself
                     if ( (*i) != (*j) ) {
+                        //insert the adjacent actor to the curr actor's adjList
                         t->second->adj.insert(make_pair(*i, m->first));
                         // edgeCount++;
                     }
                 }
             }
+            //increment the movie iterator
             mitr++;
         }
 
+        
+        
+        
         /*------BFS SEARCH FROM START ACTOR---------*/
 
+        //use to reinitialize Nodes
         stack<Node*> resetAll;
 
-        queue<Node*> q;
+        queue<Node*> q;                         //queue for BFS
+        
+        //prepare the queue by inserting starting actor for BFS
         auto found = graph.find(actor_start);
         auto s = found->second;
         q.push(s);
         s->dist = 0;
         
+        //while queue not empty
         while (!q.empty()) {
+            
+            //get the next Node in line of queue
             auto curr = q.front();
+            
+            //push to resetAll to reinitialize later
             resetAll.push(curr);
             q.pop();
+            
+            //for each neighbor
             for (auto itr = curr->adj.begin(); itr != curr->adj.end(); itr++) {
+                //find in graph
                 auto n = graph.find(itr->first)->second;
+                //set their data fields for BFS
                 if (n->dist == 32767) {
                     n->dist = curr->dist+1;
                     n->prev = curr;

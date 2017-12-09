@@ -44,38 +44,38 @@ public:
 /*
 Class: ActorGraph
 Description: Contains all the actorNodes and the movieMaps needed to contruct
-				a connected graph.
+                a connected graph.
 Data Fields: movieMap - hash mao of key of astring movieyear and value of a 
-					vector of actors in the movie
-			 ACmovieMap - hash map of key of an int year and a value of a 
-					hash table full of movies
-			 graph - hash map of key of string actor names and value of a 
-					actorNode pointer
-			 
+                    vector of actors in the movie
+             ACmovieMap - hash map of key of an int year and a value of a 
+                    hash table full of movies
+             graph - hash map of key of string actor names and value of a 
+                    actorNode pointer
+             
 */
 class ActorGraph {
     protected:
-		std::unordered_map<std::string,std::vector<std::string>> movieMap;
-		std::unordered_map<int,std::unordered_set<std::string>> ACmovieMap;
-		std::unordered_map<std::string,Node*> graph;
+        std::unordered_map<std::string,std::vector<std::string>> movieMap;
+        std::unordered_map<int,std::unordered_set<std::string>> ACmovieMap;
+        std::unordered_map<std::string,Node*> graph;
 
     
     public:
-		//constructor and deconstructor
+        //constructor and deconstructor
         ActorGraph(void);
         ~ActorGraph();
 
-		//create graph method
+        //create graph method
         void createGraph(void);
 
         //load the movieMaps from the file
         bool loadFromFile(const char* in_filename, bool use_weighted_edges);
         bool ACloadFromFile(const char* in_filename);
 
-		//main methods
+        //main methods
         int countAdj(string name);
 
-		//pathfinder methods
+        //pathfinder methods
         int edgeWeight(string movieyear);
         string findPath(string actor_start, string actor_end, bool weighted);
 
