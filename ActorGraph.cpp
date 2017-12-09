@@ -713,10 +713,10 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
     return actor_start+"\t"+actor_end+"\t9999";
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: resetAdj
+Description: utility function that clears the adjacency lists of all nodes
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 void ActorGraph::resetAdj(void) {
     for(auto i = graph.begin();i!=graph.end();i++){
