@@ -303,7 +303,12 @@ int ActorGraph::edgeWeight(string movieyear) {
 
     return 1 + (2015 - year);
 }
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
 
     //OUTPUT WHICH PAIR IS BEING FOUND    
@@ -331,11 +336,6 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 
             //dq node v from front of q
             Node* v = (pq.top()).second;
-            
-            // //break out if actor_end is found
-            // if (v->actorName == actor_end) {
-            //     break;
-            // }
             
             resetAll.push(v);
             pq.pop();
@@ -412,13 +412,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
         //get previous node
         prev = curr->prev;
         
-        //get adjacency list
-        //adjList = prev->adj;
-
-        //auto x = adjList.find(curr->actorName);    
-        
         //get movieyear by finding curr actor in prev actor adj list
-        //movieyear = (prev->adj.find(curr->actorName))->second;
         movieyear = curr->prevMovie;
         
         istringstream ss( movieyear );
@@ -463,8 +457,12 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     //now return the path
     return path;
 }
-
-/*-----------------------------------------------------*/
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
     cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
@@ -481,11 +479,6 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
     //while the actors are not connected or not all movies 
     //have been added
-
-    // Timer t1, t;
-    // float totalConnect = 0;
-    
-
     while (currYear < 2016) {
 
         //find year in acmoviemap
@@ -498,9 +491,6 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
         }
 
         /*-------ADD CONNECTIONS FOR YEAR----------*/
-
-        // t1.begin_timer();
-
         //parse through all movies for that year
         auto mitr = yearBucket->second.begin();
         auto mend = yearBucket->second.end();
@@ -520,14 +510,7 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
             mitr++;
         }
 
-        // totalConnect += t1.end_timer();
-        
-
         /*------BFS SEARCH FROM START ACTOR---------*/
-
-        //timer start
-        
-        // t.begin_timer();
 
         stack<Node*> resetAll;
 
@@ -536,9 +519,6 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
         auto s = found->second;
         q.push(s);
         s->dist = 0;
-        
-        //write to the string
-        // path = "(" + q.front()->actorName + ")";
         
         while (!q.empty()) {
             auto curr = q.front();
@@ -578,17 +558,10 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
                     c->prev = nullptr;
                 }
                 resetAdj();
-
-                // cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
-                // cout <<currYear<<" bfs: "<< t.end_timer() << " milliseconds.\n";
-                
-                return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
-                
+                return actor_start+"\t"+actor_end+"\t"+to_string(currYear);   
             }
-            
             //get previous node
-            curr = curr->prev;
-                
+            curr = curr->prev;       
         }
 
         //now reset ALL THE NODES
@@ -598,20 +571,18 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
             c->done = false;
             c->dist = 32767;
             c->prev = nullptr;
-        }
-        
+        }   
         currYear++;    //go to next year
     }
-
     resetAdj();
-
-    // cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
-    // cout <<currYear<<" bfs: " << t.end_timer() << " milliseconds.\n";
-
     return actor_start+"\t"+actor_end+"\t9999";
 }
-
-/*-----------------------------------------------------*/
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 string ActorGraph::ACufind(string actor_start, string actor_end) {
 cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
 
@@ -655,7 +626,6 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
                 uptree.insert(make_pair(firstactor, ""));
                 first = uptree.find(firstactor);
             }
-
             
             for(auto j = cast.begin(); j != cast.end(); j++) {
                 //union to first actor
@@ -669,12 +639,9 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
                         auto b = root(first, uptree);
                     }
                 }
-            }
-            
+            }   
             mitr++;
         }
-
-        //totalConnect += t1.end_timer();
         
         /*------COMPRESS ALL PATHS---------*/
         
@@ -713,47 +680,49 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
                 return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
             }
         }
-
-        //timer start
-        
-        //t.begin_timer();
-
-        
-
-    //cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
-    //cout <<currYear<<" bfs: " << t.end_timer() << " milliseconds.\n";
-
         currYear++;    //go to next year
     }
-    
     return actor_start+"\t"+actor_end+"\t9999";
 }
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 void ActorGraph::resetAdj(void) {
     for(auto i = graph.begin();i!=graph.end();i++){
         i->second->adj.clear();
     }
 }
-
-/*----------TIMER----------*/
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 void Timer::begin_timer()
 {
-    
     start = std::chrono::high_resolution_clock::now();
 }
-
-/*
- * Ends the timer. Compares end time with the start time and returns number of nanoseconds
- */
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 long long Timer::end_timer()
-{
-    
+{   
     std::chrono::time_point<std::chrono::high_resolution_clock> end;
-    end = std::chrono::high_resolution_clock::now();
-    
+    end = std::chrono::high_resolution_clock::now();   
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 ufnode ActorGraph::root(ufnode x, unordered_map<string,string> &m) {
     auto curr = m.find(x->first);
     string p = x->second;
