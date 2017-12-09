@@ -61,16 +61,16 @@ ActorGraph::~ActorGraph() {
 
 
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: createGraph 
+Description: this function populates the graph data structure (adjlist) with
+all the nodes and their adjacent nodes 
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 void ActorGraph::createGraph(void) {
 
     int edgeCount = 0;
 
-  
     //iterate through movies
     auto itrmovie = movieMap.begin();
     auto endmovie = movieMap.end();
@@ -115,6 +115,10 @@ void ActorGraph::createGraph(void) {
     cout << "#movies: " << movieMap.size() << '\n';
     cout << "#edges: " << edgeCount << '\n';
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: loadFromFile
 Description: this function creates a full graph with all nodes and edges from
