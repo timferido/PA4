@@ -724,10 +724,10 @@ void ActorGraph::resetAdj(void) {
     }
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: begin_timer
+Description: starts the time recording when called
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 void Timer::begin_timer()
 {
