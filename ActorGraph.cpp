@@ -21,6 +21,7 @@
 #include "ActorGraph.h"
 #include "util.h"
 
+
 using namespace std;
 
 /*-----------------------------------------------------------------------------
@@ -86,11 +87,12 @@ void ActorGraph::createGraph(void) {
         
             //add the actor to the adjacency list of current actor node
             //check if actor is itself
-            //nested loop to add all the other actors to adjacency list
-            for(auto itrcast = (itrmovie->second).begin(); itrcast != (itrmovie->second).end(); ++itrcast) {
+			//nested loop to add all the other actors to adjacency list
+			auto e = (itrmovie->second).end();
+            for(auto i=(itrmovie->second).begin();i!=e;++i) {
                 //check if actor is itself
-                if (*itrcast != *itractor) {
-                    temp->adj.insert(make_pair(*itrcast, (*itrmovie).first));
+                if (*i != *itractor) {
+                    temp->adj.insert(make_pair(*i, (*itrmovie).first));
                     edgeCount++;
                 }
             }
@@ -108,7 +110,8 @@ Description:
 Input:
 Output:
 -----------------------------------------------------------------------------*/
-bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
+bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
+{
     // Initialize the file stream
     ifstream infile(in_filename);
 
@@ -136,7 +139,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         while (ss) {
             string next;
             
-            // get the next string before hitting a tab character and put it in 'next'
+			// get the next string before hitting a tab character and put it in
+			// 'next'
             if (!getline( ss, next, '\t' )) break;
 
             record.push_back( next );
@@ -157,11 +161,12 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
         
     //check if titleyear exists in the movieMap
         //if so, then add actor to the corresponding vector
-        //if not, then create a new pair with titleyear and push actor onto vector
+		//if not, then create a new pair with titleyear and push actor onto 
+		//vector
 
     if (movieMap.find(titleyear) == movieMap.end()) {
         std::vector<std::string> cast;
-        auto pear = std::pair<std::string,std::vector<std::string>>(titleyear,cast);
+        auto pear = pair<string,vector<string>>(titleyear,cast);
         movieMap.insert(pear);
     } 
     //find the movie again and push the actor onto cast 
@@ -211,7 +216,8 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
         while (ss) {
             string next;
             
-            // get the next string before hitting a tab character and put it in 'next'
+			// get the next string before hitting a tab character and put it in
+			// 'next'
             if (!getline( ss, next, '\t' )) break;
 
             record.push_back( next );
@@ -738,7 +744,7 @@ long long Timer::end_timer()
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 /*-----------------------------------------------------------------------------
-Function: root
+Function:
 Description:
 Input:
 Output:
