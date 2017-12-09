@@ -316,11 +316,15 @@ int ActorGraph::countAdj(string name) {
     }
     return (count.size());
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: edgeWeight
+Description: calculates the weight of the edge based on the movie year
+Input: string movieyear
+Output: int - the weight 
 -----------------------------------------------------------------------------*/
 int ActorGraph::edgeWeight(string movieyear) {
     string my = movieyear;
