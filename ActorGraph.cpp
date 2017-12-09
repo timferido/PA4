@@ -238,11 +238,12 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
         /*--------------POPULATE movieMap-------------------*/
         //check if titleyear exists in the movieMap
         //if so, then add actor to the corresponding vector
-        //if not, then create a new pair with titleyear and push actor onto vector
+		//if not, then create a new pair with titleyear and push actor onto 
+		//vector
 
         if (movieMap.find(titleyear) == movieMap.end()) {
             std::vector<std::string> cast;
-            auto pear = std::pair<std::string,std::vector<std::string>>(titleyear,cast);
+            auto pear = std::pair<std::string,vector<string>>(titleyear,cast);
             movieMap.insert(pear);
         } 
         //find the movie again and push the actor onto cast 
