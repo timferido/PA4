@@ -1,5 +1,5 @@
 /* Author: Timothy Ferido, Kent Nguyen
-Date: 11-28-17
+Date: 12-8-17
 File: pathfinder.cpp
 Description: This file is the pathfinder executable program which
             finds the shortest path between two actors.
@@ -24,14 +24,17 @@ int main(int argc, char* argv[]) {
     ActorGraph graph;
     bool test = graph.loadFromFile(argv[1], false);
     
+    //create the graph
     graph.createGraph();
-	
-    // Initialize the file stream
+    
+    //initialize the file stream
     ifstream infile(argv[3]);
     ofstream outfile;
 
+    //open output file
     outfile.open(argv[4]);
     
+    //output beginning line
     outfile << "(actor)--[movie#@year]-->(actor)--..." << endl;
 
     //read from file
@@ -51,9 +54,9 @@ int main(int argc, char* argv[]) {
         vector <string> record;
 
         while (ss) {
-			string next;
-			
-            // get the next string before hitting a tab character and put it in 'next'
+            string next;
+            
+            // get the next string before hitting a tab and put it in 'next'
             if (!getline( ss, next, '\t' )) break;
 
             record.push_back( next );
@@ -64,12 +67,11 @@ int main(int argc, char* argv[]) {
             continue;
         }
 
+        //get the starting actor and the ending actor
         string actor_start(record[0]);
         string actor_end(record[1]);
         
-        // actor_end.erase(actor_end.end()-1);
-		
-        //write to output file
+        //write path to output file
         if (argv[2][0] == 'w') {
             outfile << graph.findPath(actor_start,actor_end, true) << '\n';
         } else {
@@ -77,6 +79,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    //close output file
     outfile.close();
     
     return 0;

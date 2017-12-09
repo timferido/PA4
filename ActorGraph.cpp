@@ -386,6 +386,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 				auto n = graph.find(itr->first)->second;
 				if (n->dist == 32767) {
 					n->dist = curr->dist+1;
+					n->prevMovie = itr->second;
 					n->prev = curr;
 					q.push(n);
 				}
@@ -417,7 +418,7 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
 		//auto x = adjList.find(curr->actorName);	
         
         //get movieyear by finding curr actor in prev actor adj list
-        // movieyear = (prev->adj.find(curr->actorName))->second;
+        //movieyear = (prev->adj.find(curr->actorName))->second;
 		movieyear = curr->prevMovie;
 		
         istringstream ss( movieyear );

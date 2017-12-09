@@ -1,11 +1,8 @@
-/*
- * ActorGraph.h
- * Author: <YOUR NAME HERE>
- * Date:   <DATE HERE>
- *
- * This file is meant to exist as a container for starter code that you can use to read the input file format
- * defined in movie_casts.tsv. Feel free to modify any/all aspects as you wish.
- */
+/* Author: Timothy Ferido, Kent Nguyen
+Date: 12-8-17
+File: ActorGraph.h
+Description: Contains the ActorGraph datafields of the .
+*/
 
 #ifndef ACTORGRAPH_H
 #define ACTORGRAPH_H
