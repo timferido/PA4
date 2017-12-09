@@ -336,10 +336,10 @@ Description:
 Input:
 Output:
 -----------------------------------------------------------------------------*/
-string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) {
-
+string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) 
+{
     //OUTPUT WHICH PAIR IS BEING FOUND    
-    cout << "Computing path for (" << actor_start << ") -> (" << actor_end << ")\n";
+    cout << "Computing path for (" << actor_start <<") -> ("<<actor_end<<")\n";
 
     string path = "";    //will hold the path to return
 
@@ -349,7 +349,8 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     /*---------------WEIGHTED---------------------*/
     if (weighted) {
 
-        priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, NodePtrComp> pq;   //initialize priority queue 
+		//initialize priority queue 
+        priority_queue<pair<int,Node*>, vector<pair<int,Node*>>, NodePtrComp> pq;   
         auto found = graph.find(actor_start);
         Node* begin = found->second;  //find actor in graph
         begin->dist = 0;    //set distance to 0 for that node
