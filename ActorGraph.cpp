@@ -734,10 +734,10 @@ void Timer::begin_timer()
     start = std::chrono::high_resolution_clock::now();
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: end_timer
+Description: returns the current time when called in reference to the beginning
+Input: none
+Output: long - a value to the total time
 -----------------------------------------------------------------------------*/
 long long Timer::end_timer()
 {   
