@@ -41,41 +41,41 @@ public:
     }
 };
 
+/*
+Class: ActorGraph
+Description: Contains all the actorNodes and the movieMaps needed to contruct
+				a connected graph.
+Data Fields: movieMap - hash mao of key of astring movieyear and value of a 
+					vector of actors in the movie
+			 ACmovieMap - hash map of key of an int year and a value of a 
+					hash table full of movies
+			 graph - hash map of key of string actor names and value of a 
+					actorNode pointer
+			 
+*/
 class ActorGraph {
     protected:
-
-        // Maybe add class data structure(s) here
-    std::unordered_map<std::string,std::vector<std::string>> movieMap;
-    std::unordered_map<int,std::unordered_set<std::string>> ACmovieMap;
-    std::unordered_map<std::string,Node*> graph;
+		std::unordered_map<std::string,std::vector<std::string>> movieMap;
+		std::unordered_map<int,std::unordered_set<std::string>> ACmovieMap;
+		std::unordered_map<std::string,Node*> graph;
 
     
     public:
-    
-
+		//constructor and deconstructor
         ActorGraph(void);
         ~ActorGraph();
 
-        // Maybe add some more methods here
-
+		//create graph method
         void createGraph(void);
 
-        /** You can modify this method definition as you wish
-         *
-         * Load the graph from a tab-delimited file of actor->movie relationships.
-         *
-         * in_filename - input filename
-         * use_weighted_edges - if true, compute edge weights as 1 + (2015 - movie_year), otherwise all edge weights will be 1
-         *
-         * return true if file was loaded sucessfully, false otherwise
-         */
+        //load the movieMaps from the file
         bool loadFromFile(const char* in_filename, bool use_weighted_edges);
         bool ACloadFromFile(const char* in_filename);
 
+		//main methods
         int countAdj(string name);
-        
-        // Node* find(string actor);
 
+		//pathfinder methods
         int edgeWeight(string movieyear);
         string findPath(string actor_start, string actor_end, bool weighted);
 
@@ -89,9 +89,7 @@ class ActorGraph {
         long long end_timer();
 
         /*dijointset*/
-        
         ufnode root(ufnode x, unordered_map<string,string> &m);
-        
 };
 
 
