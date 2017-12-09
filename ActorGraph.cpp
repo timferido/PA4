@@ -746,10 +746,12 @@ long long Timer::end_timer()
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: root
+Description: this function returns a pointer to the root node of the curr node
+by traversing all the way up
+Input: ufnode x - the node to find the root of
+Output: unordered_map<string,string> &m a reference of the hash table backing
+the disjoint set.
 -----------------------------------------------------------------------------*/
 ufnode ActorGraph::root(ufnode x, unordered_map<string,string> &m) {
     auto curr = m.find(x->first);
