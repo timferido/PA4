@@ -21,11 +21,21 @@
 #include "ActorGraph.h"
 #include "util.h"
 
-
 using namespace std;
 
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 ActorGraph::ActorGraph(void) {}
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 ActorGraph::~ActorGraph() {
 
     //parse through graph deleting nodes
@@ -35,11 +45,15 @@ ActorGraph::~ActorGraph() {
 
         while (itr != end) {
             // delete *itr;
-
             itr++;
         }        
 }
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 void ActorGraph::createGraph(void) {
 
     int edgeCount = 0;
@@ -80,19 +94,20 @@ void ActorGraph::createGraph(void) {
                     edgeCount++;
                 }
             }
-    
-
         }
         itrmovie++;
     }
-
     //message
     cout << "#nodes: " << graph.size() << '\n';
     cout << "#movies: " << movieMap.size() << '\n';
     cout << "#edges: " << edgeCount << '\n';
 }
-
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) {
     // Initialize the file stream
     ifstream infile(in_filename);
@@ -162,7 +177,12 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
 
     return true;
 }
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 bool ActorGraph::ACloadFromFile(const char* in_filename) {
     // Initialize the file stream
     ifstream infile(in_filename);
@@ -201,7 +221,6 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
             // we should have exactly 3 columns
             continue;
         }
-
         string actor_name(record[0]);
         string movie_title(record[1]);
         int movie_year = stoi(record[2]);
@@ -209,7 +228,6 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
         // we have an actor/movie relationship, now what?
         // update the graph
         string titleyear = movie_title +"\t" + record[2];
-        
         
         /*--------------POPULATE movieMap-------------------*/
         //check if titleyear exists in the movieMap
@@ -257,7 +275,12 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
 
     return true;
 }
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 int ActorGraph::countAdj(string name) {
 
     auto found = graph.find(name);
@@ -266,7 +289,6 @@ int ActorGraph::countAdj(string name) {
     unordered_set<string> count;        //create unordered set 
 
     if (found != graph.end()) {
-        // size = ((found->second)->adj).size();
         //loop through multimap adjlist and count only
         //unique actors
         
@@ -274,11 +296,14 @@ int ActorGraph::countAdj(string name) {
             count.insert(actor->first);
         }
     }
-
     return (count.size());
 }
-
-
+/*-----------------------------------------------------------------------------
+Function:
+Description:
+Input:
+Output:
+-----------------------------------------------------------------------------*/
 int ActorGraph::edgeWeight(string movieyear) {
     string my = movieyear;
 
@@ -293,11 +318,6 @@ int ActorGraph::edgeWeight(string movieyear) {
 
         record.push_back( next );
     }
-
-    // if (record.size() != 2) {
-    //     // we should have exactly 3 columns
-    //     continue;
-    // }
 
     int year(stoi (record[1]));
 
@@ -718,7 +738,7 @@ long long Timer::end_timer()
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 /*-----------------------------------------------------------------------------
-Function:
+Function: root
 Description:
 Input:
 Output:
