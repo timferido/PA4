@@ -330,11 +330,15 @@ int ActorGraph::edgeWeight(string movieyear) {
 
     return 1 + (2015 - year);
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: findPath
+Description: this function finds the shortest path between two actors 
+Input: string actor_start, string actor_end
+Output: string - this is the path including the movies and intermediate actors
 -----------------------------------------------------------------------------*/
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) 
 {
@@ -485,6 +489,10 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     //now return the path
     return path;
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: ACbfs
 Description: finds the year in which two actors become connected by adding the
@@ -606,6 +614,10 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
     resetAdj();
     return actor_start+"\t"+actor_end+"\t9999";
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: ACufind
 Description: finds the year in which two actors become connected by joining the
@@ -714,6 +726,10 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
     }
     return actor_start+"\t"+actor_end+"\t9999";
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: resetAdj
 Description: utility function that clears the adjacency lists of all nodes
@@ -725,6 +741,10 @@ void ActorGraph::resetAdj(void) {
         i->second->adj.clear();
     }
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: begin_timer
 Description: starts the time recording when called
@@ -735,6 +755,10 @@ void Timer::begin_timer()
 {
     start = std::chrono::high_resolution_clock::now();
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: end_timer
 Description: returns the current time when called in reference to the beginning
@@ -747,6 +771,10 @@ long long Timer::end_timer()
     end = std::chrono::high_resolution_clock::now();   
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
 Function: root
 Description: this function returns a pointer to the root node of the curr node
