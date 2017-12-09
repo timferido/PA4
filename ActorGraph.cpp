@@ -606,10 +606,11 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
     return actor_start+"\t"+actor_end+"\t9999";
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ACufind
+Description: finds the year in which two actors become connected by joining the
+sets of node connections year by year and checking if they have the same root
+Input: string actor_start, string actor_end
+Output: string - first actor \t second actor \t year in which they connect
 -----------------------------------------------------------------------------*/
 string ActorGraph::ACufind(string actor_start, string actor_end) {
 cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
