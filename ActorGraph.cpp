@@ -116,10 +116,12 @@ void ActorGraph::createGraph(void) {
     cout << "#edges: " << edgeCount << '\n';
 }
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: loadFromFile
+Description: this function creates a full graph with all nodes and edges from
+given input
+Input: const char* in_filename - the file to be read in
+bool use_weighted_edges - whether or not to calculate considering weight or not
+Output: bool - success indicator
 -----------------------------------------------------------------------------*/
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
 {
