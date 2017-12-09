@@ -1,8 +1,10 @@
 /* Author: Timothy Ferido, Kent Nguyen
 Date: 12-8-17
 File: ActorGraph.h
-Description: Contains the ActorGraph datafields of the .
+Description: Contains the ActorGraph datafields and functions used to create a graph
+            of actors and their connections between each other.
 */
+
 
 #ifndef ACTORGRAPH_H
 #define ACTORGRAPH_H
@@ -28,6 +30,10 @@ using namespace std;
 
 typedef unordered_map<string,string>::iterator ufnode;
 
+/*
+Class: NodePtrComp
+Description: Compairs two pairs of the weighted dist and the actorNodes for weighted
+*/
 class NodePtrComp {
 public: 
     bool operator() (pair<int, Node*> lhs, pair<int, Node*> rhs) const {
@@ -39,16 +45,16 @@ class ActorGraph {
     protected:
 
         // Maybe add class data structure(s) here
-	std::unordered_map<std::string,std::vector<std::string>> movieMap;
+    std::unordered_map<std::string,std::vector<std::string>> movieMap;
     std::unordered_map<int,std::unordered_set<std::string>> ACmovieMap;
     std::unordered_map<std::string,Node*> graph;
 
-	
+    
     public:
     
 
         ActorGraph(void);
-	    ~ActorGraph();
+        ~ActorGraph();
 
         // Maybe add some more methods here
 
