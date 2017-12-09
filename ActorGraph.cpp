@@ -193,11 +193,15 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 
     return true;
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ACloadFromFile
+Description: creates an empty graph and populates moviemap for the given input
+Input: const char* in_filename - file to be read in
+Output: bool - success
 -----------------------------------------------------------------------------*/
 bool ActorGraph::ACloadFromFile(const char* in_filename) {
     // Initialize the file stream
