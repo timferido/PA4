@@ -18,6 +18,10 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
+    //run timer
+    Timer t;
+    t.begin_timer();
+
     bool have_header = false;
 
     //load from file
@@ -73,6 +77,9 @@ int main(int argc, char* argv[]) {
     }
 
     outfile.close();
+
+    //end timer
+    cout << "Program ran in " << t.end_timer() << " nanoseconds\n\n";
     
     return 0;
 }

@@ -249,7 +249,11 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
         cerr << "Failed to read " << in_filename << "!\n";
         return false;
     }
-    infile.close();
+	infile.close();
+	
+	cout << "#nodes: " << graph.size() << '\n';
+	cout << "#movies: " << movieMap.size() << '\n';
+	cout << "#edges: 0\n\n";
 
     return true;
 }
