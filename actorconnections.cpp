@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
     outfile.close();
 
     //end timer
-    cout << "Program ran in " << t.end_timer() << " nanoseconds\n\n";
+    cout << "Program ran in " << t.end_timer() << " milliseconds\n\n";
     
     return 0;
 }

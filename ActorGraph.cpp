@@ -481,8 +481,8 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 	//while the actors are not connected or not all movies 
 	//have been added
 
-	Timer t1, t;
-	float totalConnect = 0;
+	// Timer t1, t;
+	// float totalConnect = 0;
 	
 
 	while (currYear < 2016) {
@@ -498,7 +498,7 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
 		/*-------ADD CONNECTIONS FOR YEAR----------*/
 
-		t1.begin_timer();
+		// t1.begin_timer();
 
 		//parse through all movies for that year
 		auto mitr = yearBucket->second.begin();
@@ -519,14 +519,14 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 			mitr++;
 		}
 
-		totalConnect += t1.end_timer();
+		// totalConnect += t1.end_timer();
 		
 
 		/*------BFS SEARCH FROM START ACTOR---------*/
 
 		//timer start
 		
-		t.begin_timer();
+		// t.begin_timer();
 
 		stack<Node*> resetAll;
 
@@ -578,8 +578,8 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 				}
 				resetAdj();
 
-				cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
-				cout <<currYear<<" bfs: "<< t.end_timer() << " milliseconds.\n";
+				// cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
+				// cout <<currYear<<" bfs: "<< t.end_timer() << " milliseconds.\n";
 				
 				return actor_start+"\t"+actor_end+"\t"+to_string(currYear);
 				
@@ -604,8 +604,8 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
 	resetAdj();
 
-	cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
-	cout <<currYear<<" bfs: " << t.end_timer() << " milliseconds.\n";
+	// cout <<currYear<<" connect: "<< totalConnect <<" milliseconds\n";
+	// cout <<currYear<<" bfs: " << t.end_timer() << " milliseconds.\n";
 
 	return actor_start+"\t"+actor_end+"\t9999";
 }
