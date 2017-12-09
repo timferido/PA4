@@ -24,18 +24,25 @@
 
 using namespace std;
 
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ActorGraph
+Description: constructor
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 ActorGraph::ActorGraph(void) {}
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ~ActorGraph
+Description: destructor
+Input: none 
+Output: none
 -----------------------------------------------------------------------------*/
 ActorGraph::~ActorGraph() {
 
@@ -49,11 +56,16 @@ ActorGraph::~ActorGraph() {
         itr++;
     }        
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: createGraph 
+Description: this function populates the graph data structure (adjlist) with
+all the nodes and their adjacent nodes 
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 void ActorGraph::createGraph(void) {
 
@@ -107,11 +119,17 @@ void ActorGraph::createGraph(void) {
     cout << "#movies: " << movieMap.size() << '\n';
     cout << "#edges: " << edgeCount << '\n';
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: loadFromFile
+Description: this function creates a full graph with all nodes and edges from
+given input
+Input: const char* in_filename - the file to be read in
+bool use_weighted_edges - whether or not to calculate considering weight or not
+Output: bool - success indicator
 -----------------------------------------------------------------------------*/
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
 {
@@ -185,11 +203,15 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 
     return true;
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ACloadFromFile
+Description: creates an empty graph and populates moviemap for the given input
+Input: const char* in_filename - file to be read in
+Output: bool - success
 -----------------------------------------------------------------------------*/
 bool ActorGraph::ACloadFromFile(const char* in_filename) {
     // Initialize the file stream
@@ -295,11 +317,15 @@ bool ActorGraph::ACloadFromFile(const char* in_filename) {
 
     return true;
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: countAdj
+Description: counts the number of unique adjacencies for the given node
+Input: string name
+Output: int - the unique adjacencies
 -----------------------------------------------------------------------------*/
 int ActorGraph::countAdj(string name) {
 
@@ -318,11 +344,15 @@ int ActorGraph::countAdj(string name) {
     }
     return (count.size());
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: edgeWeight
+Description: calculates the weight of the edge based on the movie year
+Input: string movieyear
+Output: int - the weight 
 -----------------------------------------------------------------------------*/
 int ActorGraph::edgeWeight(string movieyear) {
     string my = movieyear;
@@ -343,11 +373,15 @@ int ActorGraph::edgeWeight(string movieyear) {
 
     return 1 + (2015 - year);
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: findPath
+Description: this function finds the shortest path between two actors 
+Input: string actor_start, string actor_end
+Output: string - this is the path including the movies and intermediate actors
 -----------------------------------------------------------------------------*/
 string ActorGraph::findPath(string actor_start, string actor_end, bool weighted) 
 {
@@ -497,11 +531,16 @@ string ActorGraph::findPath(string actor_start, string actor_end, bool weighted)
     //now return the path
     return path;
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ACbfs
+Description: finds the year in which two actors become connected by adding the
+movies year by year and doing a breadth first search through current graph
+Input: string actor_start, string actor_end
+Output: string - first actor \t second actor \t year in which they connect
 -----------------------------------------------------------------------------*/
 string ActorGraph::ACbfs(string actor_start, string actor_end) {
 
@@ -646,11 +685,16 @@ string ActorGraph::ACbfs(string actor_start, string actor_end) {
     resetAdj();
     return actor_start+"\t"+actor_end+"\t9999";
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: ACufind
+Description: finds the year in which two actors become connected by joining the
+sets of node connections year by year and checking if they have the same root
+Input: string actor_start, string actor_end
+Output: string - first actor \t second actor \t year in which they connect
 -----------------------------------------------------------------------------*/
 string ActorGraph::ACufind(string actor_start, string actor_end) {
 cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
@@ -753,32 +797,44 @@ cout << "Computing: " <<actor_start <<" -> "<<actor_end<<'\n';
     }
     return actor_start+"\t"+actor_end+"\t9999";
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: resetAdj
+Description: utility function that clears the adjacency lists of all nodes
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 void ActorGraph::resetAdj(void) {
     for(auto i = graph.begin();i!=graph.end();i++){
         i->second->adj.clear();
     }
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: begin_timer
+Description: starts the time recording when called
+Input: none
+Output: none
 -----------------------------------------------------------------------------*/
 void Timer::begin_timer()
 {
     start = std::chrono::high_resolution_clock::now();
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: end_timer
+Description: returns the current time when called in reference to the beginning
+Input: none
+Output: long - a value to the total time
 -----------------------------------------------------------------------------*/
 long long Timer::end_timer()
 {   
@@ -786,11 +842,17 @@ long long Timer::end_timer()
     end = std::chrono::high_resolution_clock::now();   
     return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
+
+
+
+
 /*-----------------------------------------------------------------------------
-Function:
-Description:
-Input:
-Output:
+Function: root
+Description: this function returns a pointer to the root node of the curr node
+by traversing all the way up
+Input: ufnode x - the node to find the root of
+Output: unordered_map<string,string> &m a reference of the hash table backing
+the disjoint set.
 -----------------------------------------------------------------------------*/
 ufnode ActorGraph::root(ufnode x, unordered_map<string,string> &m) {
     auto curr = m.find(x->first);
