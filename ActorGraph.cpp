@@ -34,7 +34,7 @@ ActorGraph::~ActorGraph() {
         auto end = graph.end();
 
         while (itr != end) {
-            // delete *itr;
+            delete itr->second;
 
             itr++;
         }        
